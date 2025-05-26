@@ -1,2 +1,8 @@
-# rpa
-RPA ADIP333OPTIPTICE Robot (réf. Patricia LEGER / Raphael VAUQUELIN)
+# Métadonnées RPA
+
+**Nom Robot**: ADIP333OPTIPRICE
+
+**Demandeur**: Moustapha DIAGNE
+
+**Support IT**: Patricia LEGER, Raphaël VAUQUELIN
+
