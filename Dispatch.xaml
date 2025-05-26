@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Dispatch" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:uas="clr-namespace:UiPath.Activities.System;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Dispatch" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:uas="clr-namespace:UiPath.Activities.System;assembly=UiPath.System.Activities" xmlns:uga="clr-namespace:UiPath.GSuite.Activities;assembly=UiPath.GSuite.Activities" xmlns:ugade="clr-namespace:UiPath.GSuite.Activities.Drive.Enums;assembly=UiPath.GSuite.Activities" xmlns:ugam="clr-namespace:UiPath.GSuite.Activities.Models;assembly=UiPath.GSuite.Activities" xmlns:ugas="clr-namespace:UiPath.GSuite.Activities.Sheets;assembly=UiPath.GSuite.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:usau="clr-namespace:UiPath.Shared.Activities.Utils;assembly=UiPath.GSuite.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="parameters" Type="InArgument(njl:JObject)" />
     <x:Property Name="cfg_drive" Type="InArgument(njl:JToken)" />
@@ -140,6 +140,16 @@
       <x:String>UiPath.CV.Activities</x:String>
       <x:String>UiPath.CV.Activities.Interfaces</x:String>
       <x:String>UiPath.Shared.Activities.Business</x:String>
+      <x:String>UiPath.GSuite.Activities.Drive.Enums</x:String>
+      <x:String>UiPath.GSuite.Drive.Models</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>UiPath.GSuite.Activities.Models</x:String>
+      <x:String>UiPath.Shared.Activities.Utils</x:String>
+      <x:String>UiPath.GSuite.Activities</x:String>
+      <x:String>UiPath.Shared.Activities.ConnectionService.Contracts</x:String>
+      <x:String>UiPath.GSuite.Activities.Enums</x:String>
+      <x:String>UiPath.GSuite.Activities.Sheets</x:String>
+      <x:String>UiPath.GSuite.Activities.Sheets.Enums</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -268,6 +278,7 @@
       <AssemblyReference>UiPath.CV</AssemblyReference>
       <AssemblyReference>UiPath.UIAutomationNext.Activities.Design</AssemblyReference>
       <AssemblyReference>UiPath.CV.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.GSuite</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
   <sap:WorkflowViewStateService.ViewState>
@@ -276,18 +287,149 @@
       <x:Boolean x:Key="ShouldCollapseAll">False</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence DisplayName="Dispatch" sap:VirtualizedContainerService.HintSize="1116,7406" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Dispatch" sap:VirtualizedContainerService.HintSize="1184,9141" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="ui:PasswordCredentials" Name="OptipriceCredentials" />
-      <Variable x:TypeArguments="x:Int32" Name="NbKeyboardTabEnter" />
+      <Variable x:TypeArguments="x:String" Name="strCurrentDate">
+        <Variable.Default>
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="Now.ToString(&quot;yyyy-MM-dd&quot;)" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Int32" Name="compteur1ServLAD">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Int32" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Int32" Name="compteur2Canal">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Int32" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Int32" Name="compteur3Secteur">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Int32" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Int32" Name="compteur4ActionRobot">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Int32" />
+        </Variable.Default>
+      </Variable>
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message dispatch" sap:VirtualizedContainerService.HintSize="1116,173" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Begin of dispatch part&quot;]" />
-    <uix:NApplicationCard DisplayName="Ouvre optiprice" sap:VirtualizedContainerService.HintSize="1116,7210" sap2010:WorkflowViewState.IdRef="NApplicationCard_2" InteractionMode="DebuggerApi" ScopeGuid="5d40df67-5334-4486-8719-627c0190b7f0">
+    <ui:LogMessage DisplayName="Log Message dispatch" sap:VirtualizedContainerService.HintSize="1184,175" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Begin of dispatch part&quot;]" />
+    <Sequence DisplayName="Setup GSheet" sap:VirtualizedContainerService.HintSize="1184,1660" sap2010:WorkflowViewState.IdRef="Sequence_34">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <uga:GSuiteApplicationScope ApiKey="{x:Null}" BrowserItemFriendlyName="{x:Null}" BrowserItemFullPath="{x:Null}" BrowserItemId="{x:Null}" BrowserParentItemId="{x:Null}" BrowserRuntimeItemFriendlyName="{x:Null}" BrowserRuntimeItemFullPath="{x:Null}" BrowserRuntimeItemId="{x:Null}" BrowserRuntimeParentItemId="{x:Null}" BucketId="{x:Null}" BucketName="{x:Null}" ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" Connector="{x:Null}" ContinueOnError="{x:Null}" CredentialID="{x:Null}" CredentialSecret="{x:Null}" Folder="{x:Null}" KeyPath="{x:Null}" ManualRuntimeItemFullPath="{x:Null}" SecureCredentialSecret="{x:Null}" ServiceAccountEmail="{x:Null}" TimeoutMS="{x:Null}" UserEmail="{x:Null}" Account="moustapha_diagne@carrefour.com" AuthenticationType="OAuthClientID" BucketInputMode="Browse" ConfigLocation="PropertiesPanel" DataStoreLocation="DISK" DisplayName="Google Workspace Scope" HasDomainWideAccesss="False" sap:VirtualizedContainerService.HintSize="518,1568" sap2010:WorkflowViewState.IdRef="GSuiteApplicationScope_1" KeyType="JSON" OAuthClient="UIPATH" Password="notasecret" RuntimeItemInputMode="Browse" Services="Unselected" UseConnectionService="False" User="916ADCF0">
+        <uga:GSuiteApplicationScope.AuthenticationScopes>
+          <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+        </uga:GSuiteApplicationScope.AuthenticationScopes>
+        <uga:GSuiteApplicationScope.Body>
+          <ActivityAction x:TypeArguments="x:Object">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="x:Object" Name="GSuiteScope" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="484,1325" sap2010:WorkflowViewState.IdRef="Sequence_35">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ugas:GoogleSheetsApplicationScope ConnectionAccountName="{x:Null}" ConnectionId="{x:Null}" ContinueOnError="{x:Null}" FileId="{x:Null}" Filename="{x:Null}" ParentFolderId="{x:Null}" ParentFolderPath="{x:Null}" Timeout="{x:Null}" Account="moustapha_diagne@carrefour.com" Action="UseExisting" Connector="uipath-google-sheets" DisplayName="Use Google Spreadsheet" sap:VirtualizedContainerService.HintSize="450,852" sap2010:WorkflowViewState.IdRef="GoogleSheetsApplicationScope_2" Mode="EnterId" SpreadsheetId="https://docs.google.com/spreadsheets/d/10PSkLUhK-3mNnkeQD_rqcDz8DvVotpxmO8Av2H8G1wg/edit?usp=drivesdk" SpreadsheetName="ADIP333OPTIPRICE_Extraction_Prix" UseConnectionService="False" UserEmail="moustapha_diagne@carrefour.com">
+                <ugas:GoogleSheetsApplicationScope.Body>
+                  <ActivityAction x:TypeArguments="ugas:IGoogleSheetTarget">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="ugas:IGoogleSheetTarget" Name="Spreadsheet_TemplateReportRPA" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="416,532" sap2010:WorkflowViewState.IdRef="Sequence_39">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uga:GetSheets ContinueOnError="{x:Null}" GoogleSpreadsheet="{x:Null}" Result="{x:Null}" SpreadsheetId="{x:Null}" AuthScopesInvalid="False" DisplayName="Get Sheets" sap:VirtualizedContainerService.HintSize="382,162" sap2010:WorkflowViewState.IdRef="GetSheets_1" />
+                      <uga:CopySheet ContinueOnError="{x:Null}" CopySpreadsheetId="{x:Null}" GoogleSpreadsheet="{x:Null}" NewSheetName="{x:Null}" PasteSpreadsheetId="{x:Null}" Result="{x:Null}" SpreadsheetId="{x:Null}" ToGoogleSpreadsheet="{x:Null}" AuthScopesInvalid="False" CopySheetName="Sheet1" DisplayName="Copy Sheet" sap:VirtualizedContainerService.HintSize="382,310" sap2010:WorkflowViewState.IdRef="CopySheet_1" />
+                    </Sequence>
+                  </ActivityAction>
+                </ugas:GoogleSheetsApplicationScope.Body>
+                <ugas:GoogleSheetsApplicationScope.CredentialID>
+                  <InArgument x:TypeArguments="x:String">
+                    <Literal x:TypeArguments="x:String" Value="" />
+                  </InArgument>
+                </ugas:GoogleSheetsApplicationScope.CredentialID>
+                <ugas:GoogleSheetsApplicationScope.CredentialSecret>
+                  <InArgument x:TypeArguments="x:String">
+                    <Literal x:TypeArguments="x:String" Value="" />
+                  </InArgument>
+                </ugas:GoogleSheetsApplicationScope.CredentialSecret>
+              </ugas:GoogleSheetsApplicationScope>
+              <If sap:VirtualizedContainerService.HintSize="450,413" sap2010:WorkflowViewState.IdRef="If_1">
+                <If.Then>
+                  <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="416,226" sap2010:WorkflowViewState.IdRef="Sequence_37">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <uga:CreateSpreadsheetConnections ConnectionAccountName="{x:Null}" ContinueOnError="{x:Null}" FolderIdBackup="{x:Reference __ReferenceID0}" ManualEntryParentFolderId="{x:Null}" NewSpreadsheet="{x:Null}" ParentFolderExisting="{x:Null}" AuthScopesInvalid="False" BrowserParentFolderFriendlyName="ADIP333OPTIPRICE" BrowserParentFolderId="https://drive.google.com/drive/folders/1_4Lx2SwmoRdQPu5IfFGgsNKJqEYLi91F" ConflictResolution="Fail" ConnectionId="a87f55af-27bb-4c2e-8137-623e7e4de612" DisplayName="Create Spreadsheet" FirstSheetName="Sheet1" sap:VirtualizedContainerService.HintSize="382,166" sap2010:WorkflowViewState.IdRef="CreateSpreadsheetConnections_1" ParentFolderInputMode="Browse" SpreadsheetName="[&quot;Report_ADIP333OPTIPRICE_&quot;+strCurrentDate]" UseConnectionService="False">
+                      <uga:CreateSpreadsheetConnections.Item>
+                        <ugam:DriveItemArgument ConnectionDescriptor="{x:Null}" Existing="{x:Null}" FriendlyName="{x:Null}" FullPath="{x:Null}" IdOrUrl="{x:Null}" ParentId="{x:Null}" ParentIdFriendlyName="{x:Null}" RelativePath="{x:Null}" BrowserId="https://drive.google.com/drive/folders/1_4Lx2SwmoRdQPu5IfFGgsNKJqEYLi91F" ConnectionKey="eyJPQXV0aDJBcHBEYXRhIjp7IkNsaWVudElkIjoiIiwiQ2xpZW50U2VjcmV0IjoiIn0sIlNjb3BlcyI6WyJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9hdXRoL2RyaXZlIl0sIlVzZXJJZCI6IjkxNkFEQ0YwIiwiRW1haWxBZGRyZXNzIjpudWxsLCJBY2NvdW50IjoibW91c3RhcGhhX2RpYWduZUBjYXJyZWZvdXIuY29tIiwiU3RvcmFnZSI6eyJMb2NhbEZvbGRlciI6IkdTdWl0ZSIsIk9yY2hlc3RyYXRvckZvbGRlciI6IiIsIkxvY2F0aW9uIjowfX0=" FullPathHint="DOP-DR-RPA-WORKSPACES/PRICE/ADIP333OPTIPRICE" InputMode="Browse">
+                          <ugam:DriveItemArgument.Backup>
+                            <usau:BackupSlot x:TypeArguments="ugade:EDriveItemMode" x:Name="__ReferenceID0" StoredValue="Browse">
+                              <usau:BackupSlot.BackupValues>
+                                <scg:Dictionary x:TypeArguments="ugade:EDriveItemMode, scg:List(x:Object)" />
+                              </usau:BackupSlot.BackupValues>
+                            </usau:BackupSlot>
+                          </ugam:DriveItemArgument.Backup>
+                          <ugam:DriveItemArgument.ParentIdFullPathHint>
+                            <InArgument x:TypeArguments="x:String">
+                              <Literal x:TypeArguments="x:String" Value="" />
+                            </InArgument>
+                          </ugam:DriveItemArgument.ParentIdFullPathHint>
+                        </ugam:DriveItemArgument>
+                      </uga:CreateSpreadsheetConnections.Item>
+                    </uga:CreateSpreadsheetConnections>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="416,25" sap2010:WorkflowViewState.IdRef="Sequence_36">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </Sequence>
+                </If.Else>
+              </If>
+            </Sequence>
+          </ActivityAction>
+        </uga:GSuiteApplicationScope.Body>
+        <uga:GSuiteApplicationScope.BucketFullPathBackup>
+          <usau:BackupSlot x:TypeArguments="ugade:EDriveItemMode" StoredValue="Browse">
+            <usau:BackupSlot.BackupValues>
+              <scg:Dictionary x:TypeArguments="ugade:EDriveItemMode, scg:List(x:Object)" />
+            </usau:BackupSlot.BackupValues>
+          </usau:BackupSlot>
+        </uga:GSuiteApplicationScope.BucketFullPathBackup>
+        <uga:GSuiteApplicationScope.RuntimeItemFullPathBackup>
+          <usau:BackupSlot x:TypeArguments="ugade:EDriveItemMode" StoredValue="{x:Null}">
+            <usau:BackupSlot.BackupValues>
+              <scg:Dictionary x:TypeArguments="ugade:EDriveItemMode, scg:List(x:Object)" />
+            </usau:BackupSlot.BackupValues>
+          </usau:BackupSlot>
+        </uga:GSuiteApplicationScope.RuntimeItemFullPathBackup>
+      </uga:GSuiteApplicationScope>
+    </Sequence>
+    <uix:NApplicationCard DisplayName="Ouvre optiprice" sap:VirtualizedContainerService.HintSize="1184,7117" sap2010:WorkflowViewState.IdRef="NApplicationCard_2" InteractionMode="DebuggerApi" ScopeGuid="5d40df67-5334-4486-8719-627c0190b7f0">
       <uix:NApplicationCard.AutoGenerationOptions>
         <uix:GenerationOptions ExpectedInputs="{x:Null}" Prompt="Open a new Google Chrome browser tab and navigate to http://pricing.edc.carrefour.com/#" Url="http://pricing.edc.carrefour.com/#">
           <uix:GenerationOptions.ExpectedOutputs>
@@ -302,133 +444,152 @@
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1082,6970" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1150,6867" sap2010:WorkflowViewState.IdRef="Sequence_4">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <Sequence sap:VirtualizedContainerService.HintSize="1048,123" sap2010:WorkflowViewState.IdRef="Sequence_19">
+            <Sequence DisplayName="ECRAN 1 - Page d'accueil http://pricing.edc.carrefour.com/#" sap:VirtualizedContainerService.HintSize="1116,57" sap2010:WorkflowViewState.IdRef="Sequence_42">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Ouverture Optiprice réussie.&quot;]" />
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Europe'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="2153fa23-b796-48f9-80cf-bb3660d9c0de" CvTextArea="445, 188, 45, 16" CvTextArgument="Europe" CvType="Text" DesignTimeRectangle="278, 179, 379, 31" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_europe' tag='A' type='' class='nav-link' aaname='Europe' check:innerText='Europe' /&gt;" Guid="f80fe1d5-7956-40ad-92f3-beae02ef91c6" InformativeScreenshot="9ec338e337e9f18701292a11469bc846.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Carrefour Pricing Tool Portal' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target CVScreenId="2153fa23-b796-48f9-80cf-bb3660d9c0de" CvTextArea="445, 188, 45, 16" CvTextArgument="Europe" CvType="Text" DesignTimeRectangle="445, 188, 45, 16" ElementType="Text" Guid="0718a89f-ce0b-4edf-9324-e409c288371a" SearchSteps="CV" TargetType="ComputerVisionBased" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Clic bouton Europe réussi&quot;]" />
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'France'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_2" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="56efc74c-a0d2-4f0c-a2d9-342583ff8add" CvElementArea="569, 226, 75, 32" CvTextArea="579, 235, 31, 10" CvTextArgument="France" CvType="Button" DesignTimeRectangle="570, 227, 75, 29" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_france' tag='A' type='' class='nav-link' aaname='                     France                                      ' check:innerText='France' /&gt;" Guid="fdee67a9-116f-4532-b939-2ee12592a523" InformativeScreenshot="8473677011c1f968d593cd1c260b22f5.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Pricing - Zone Europe' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target CVScreenId="56efc74c-a0d2-4f0c-a2d9-342583ff8add" CvElementArea="569, 226, 75, 32" CvType="Button" DesignTimeRectangle="612, 233, 22, 17" ElementType="Icon" FuzzySelectorArgument="&lt;webctrl parentid='load_france' tag='IMG' type='' class='rounded flag' aaname='France' /&gt;" Guid="3a6e68db-0c8d-4f7f-9765-1aae4a7f0114" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Clic bouton France  --&gt; Réussite&quot;]" />
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'OPC Permanent'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_3" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvTextArea="411, 538, 71, 10" CvTextArgument="OPC Permanent" CvType="Text" DesignTimeRectangle="399, 523, 119, 41" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='franceTable' tag='TABLE' /&gt;&lt;webctrl type='' tag='A' class='nav-link' aaname='OPC Permanent' check:innerText='OPC Permanent' /&gt;" Guid="b80605fb-b044-449e-b85f-a6f455eb1586" InformativeScreenshot="bd3374469cc47263872b442495cbbfc6.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Pricing - Zone Europe' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="2">
+                        <uix:Target CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvTextArea="290, 538, 76, 10" CvTextArgument="France LAD-LEX" CvType="Text" DesignTimeRectangle="278, 523, 119, 41" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='franceTable' tag='TABLE' /&gt;&lt;webctrl type='' tag='TH' class='fr' aaname='France LAD-LEX' check:innerText='France LAD-LEX' /&gt;" Guid="11f76222-8a09-4b48-b057-cf149a76b229" SearchSteps="FuzzySelector, CV" />
+                        <uix:Target CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvElementArea="569, 227, 76, 29" CvType="InputBox" DesignTimeRectangle="570, 227, 75, 29" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_france' tag='A' type='' class='nav-link isActive-fr' aaname='                     France                                      ' check:innerText='France' /&gt;" Guid="bd5ca0ed-b887-4150-9e04-74e1dec42c4b" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,166" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Trace" Message="[&quot;Click OPC Permanent -&gt; Réussite&quot;]" />
+            </Sequence>
+            <Sequence DisplayName="ECRAN 2 -  Page d'identification http://pricing.edc.carrefour.com/PRDM/ASPX/Logon/Logon.aspx?ReturnUrl=%2fPRDM%2fpri.aspx" sap:VirtualizedContainerService.HintSize="1116,1493" sap2010:WorkflowViewState.IdRef="Sequence_43">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-            </Sequence>
-            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1048,175" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Trace" Message="[&quot;Ouverture Optiprice réussie.&quot;]" />
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Europe'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="2153fa23-b796-48f9-80cf-bb3660d9c0de" CvTextArea="445, 188, 45, 16" CvTextArgument="Europe" CvType="Text" DesignTimeRectangle="278, 179, 379, 31" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_europe' tag='A' type='' class='nav-link' aaname='Europe' check:innerText='Europe' /&gt;" Guid="f80fe1d5-7956-40ad-92f3-beae02ef91c6" InformativeScreenshot="9ec338e337e9f18701292a11469bc846.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Carrefour Pricing Tool Portal' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                  <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                      <uix:Target CVScreenId="2153fa23-b796-48f9-80cf-bb3660d9c0de" CvTextArea="445, 188, 45, 16" CvTextArgument="Europe" CvType="Text" DesignTimeRectangle="445, 188, 45, 16" ElementType="Text" Guid="0718a89f-ce0b-4edf-9324-e409c288371a" SearchSteps="CV" TargetType="ComputerVisionBased" />
-                    </scg:List>
-                  </uix:TargetAnchorable.Anchors>
-                </uix:TargetAnchorable>
-              </uix:NClick.Target>
-            </uix:NClick>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'France'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_2" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="56efc74c-a0d2-4f0c-a2d9-342583ff8add" CvElementArea="569, 226, 75, 32" CvTextArea="579, 235, 31, 10" CvTextArgument="France" CvType="Button" DesignTimeRectangle="570, 227, 75, 29" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_france' tag='A' type='' class='nav-link' aaname='                     France                                      ' check:innerText='France' /&gt;" Guid="fdee67a9-116f-4532-b939-2ee12592a523" InformativeScreenshot="8473677011c1f968d593cd1c260b22f5.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Pricing - Zone Europe' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                  <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                      <uix:Target CVScreenId="56efc74c-a0d2-4f0c-a2d9-342583ff8add" CvElementArea="569, 226, 75, 32" CvType="Button" DesignTimeRectangle="612, 233, 22, 17" ElementType="Icon" FuzzySelectorArgument="&lt;webctrl parentid='load_france' tag='IMG' type='' class='rounded flag' aaname='France' /&gt;" Guid="3a6e68db-0c8d-4f7f-9765-1aae4a7f0114" SearchSteps="FuzzySelector, CV" />
-                    </scg:List>
-                  </uix:TargetAnchorable.Anchors>
-                </uix:TargetAnchorable>
-              </uix:NClick.Target>
-            </uix:NClick>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'OPC Permanent'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_3" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvTextArea="411, 538, 71, 10" CvTextArgument="OPC Permanent" CvType="Text" DesignTimeRectangle="399, 523, 119, 41" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='franceTable' tag='TABLE' /&gt;&lt;webctrl type='' tag='A' class='nav-link' aaname='OPC Permanent' check:innerText='OPC Permanent' /&gt;" Guid="b80605fb-b044-449e-b85f-a6f455eb1586" InformativeScreenshot="bd3374469cc47263872b442495cbbfc6.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Pricing - Zone Europe' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                  <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="2">
-                      <uix:Target CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvTextArea="290, 538, 76, 10" CvTextArgument="France LAD-LEX" CvType="Text" DesignTimeRectangle="278, 523, 119, 41" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='franceTable' tag='TABLE' /&gt;&lt;webctrl type='' tag='TH' class='fr' aaname='France LAD-LEX' check:innerText='France LAD-LEX' /&gt;" Guid="11f76222-8a09-4b48-b057-cf149a76b229" SearchSteps="FuzzySelector, CV" />
-                      <uix:Target CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvElementArea="569, 227, 76, 29" CvType="InputBox" DesignTimeRectangle="570, 227, 75, 29" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_france' tag='A' type='' class='nav-link isActive-fr' aaname='                     France                                      ' check:innerText='France' /&gt;" Guid="bd5ca0ed-b887-4150-9e04-74e1dec42c4b" SearchSteps="FuzzySelector, CV" />
-                    </scg:List>
-                  </uix:TargetAnchorable.Anchors>
-                </uix:TargetAnchorable>
-              </uix:NClick.Target>
-            </uix:NClick>
-            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1048,175" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Trace" Message="[&quot;Click OPC Permanent -&gt; Réussite&quot;]" />
-            <uix:NCheckState DisplayName="Check App State 'pricing.edc.carrefour.c…'" sap:VirtualizedContainerService.HintSize="1048,1219" sap2010:WorkflowViewState.IdRef="NCheckState_3" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Timeout="3" Version="V4">
-              <uix:NCheckState.IfExists>
-                <Sequence DisplayName="Target appears" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Sequence_17">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                </Sequence>
-              </uix:NCheckState.IfExists>
-              <uix:NCheckState.IfNotExists>
-                <Sequence DisplayName="Target does not appear" sap:VirtualizedContainerService.HintSize="484,970" sap2010:WorkflowViewState.IdRef="Sequence_16">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <uas:GetUsernamePasswordX OrchestratorCredentialName="{x:Null}" TimeoutInSeconds="{x:Null}" AutosubmitTimeoutSeconds="10" Credential="[OptipriceCredentials]" CredentialName="UiPath: Carrefour Optiprice" CredentialsSource="CredentialsManager" DisplayName="Get Username/Password" sap:VirtualizedContainerService.HintSize="450,207" sap2010:WorkflowViewState.IdRef="GetUsernamePasswordX_3" />
-                  <Sequence sap:VirtualizedContainerService.HintSize="450,701" sap2010:WorkflowViewState.IdRef="Sequence_18">
+              <uix:NCheckState DisplayName="Check App State 'pricing.edc.carrefour.c…'" sap:VirtualizedContainerService.HintSize="988,1399" sap2010:WorkflowViewState.IdRef="NCheckState_3" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Timeout="3" Version="V4">
+                <uix:NCheckState.IfExists>
+                  <Sequence DisplayName="Target appears" sap:VirtualizedContainerService.HintSize="450,25" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </Sequence>
+                </uix:NCheckState.IfExists>
+                <uix:NCheckState.IfNotExists>
+                  <Sequence DisplayName="Target does not appear" sap:VirtualizedContainerService.HintSize="484,1155" sap2010:WorkflowViewState.IdRef="Sequence_16">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
-                    <ui:LogMessage DisplayName="Do something." sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Image found&quot;]" />
-                    <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Login'" sap:VirtualizedContainerService.HintSize="416,189" sap2010:WorkflowViewState.IdRef="NClick_4" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-                      <uix:NClick.Target>
-                        <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/ASPX/Logon/Logon.aspx" CVScreenId="93786349-8a45-4f06-a74c-80f7af8b0c52" CvElementArea="546, 294, 201, 23" CvType="InputBox" DesignTimeRectangle="547, 296, 200, 21" DesignTimeScaleFactor="0.6666666865348816" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='tbName' tag='INPUT' type='text' class='txt_login' aaname='' /&gt;" Guid="d4c0b11c-c6d8-4ada-b9a2-6fbc212394e7" InformativeScreenshot="2b326a264f8b64c3f84065d83b79bcd2.png" IsResponsive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' title='| Amazon | Login' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                          <uix:TargetAnchorable.Anchors>
-                            <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                              <uix:Target CVScreenId="93786349-8a45-4f06-a74c-80f7af8b0c52" CvTextArea="546, 285, 19, 10" CvTextArgument="Login:" CvType="Text" DesignTimeRectangle="547, 285, 19, 10" ElementType="Text" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='' aaname='                                         Login:                                     ' check:innerText='Login:' /&gt;" Guid="b65f9643-4414-41ac-beb1-e1741a105b67" SearchSteps="FuzzySelector, CV" />
-                            </scg:List>
-                          </uix:TargetAnchorable.Anchors>
-                        </uix:TargetAnchorable>
-                      </uix:NClick.Target>
-                    </uix:NClick>
-                    <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="None" DisplayName="Type Into" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="416,250" sap2010:WorkflowViewState.IdRef="NTypeInto_1" Text="[&quot;moustapha_diagne&quot; + &quot;[k(Tab)]&quot; + OptipriceCredentials.Password + &quot;[k(Enter)]&quot;]" Version="V4">
+                    <uas:GetUsernamePasswordX OrchestratorCredentialName="{x:Null}" TimeoutInSeconds="{x:Null}" AutosubmitTimeoutSeconds="10" Credential="[OptipriceCredentials]" CredentialName="UiPath: Carrefour Optiprice" CredentialsSource="CredentialsManager" DisplayName="Get Username/Password" sap:VirtualizedContainerService.HintSize="450,210" sap2010:WorkflowViewState.IdRef="GetUsernamePasswordX_3" />
+                    <Sequence DisplayName="Credentials fill out" sap:VirtualizedContainerService.HintSize="450,883" sap2010:WorkflowViewState.IdRef="Sequence_18">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
                         </scg:Dictionary>
                       </sap:WorkflowViewStateService.ViewState>
-                    </uix:NTypeInto>
+                      <ui:LogMessage DisplayName="Do something." sap:VirtualizedContainerService.HintSize="416,177" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Image found&quot;]" />
+                      <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Login'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_4" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/ASPX/Logon/Logon.aspx" CVScreenId="93786349-8a45-4f06-a74c-80f7af8b0c52" CvElementArea="546, 294, 201, 23" CvType="InputBox" DesignTimeRectangle="547, 296, 200, 21" DesignTimeScaleFactor="0.6666666865348816" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='tbName' tag='INPUT' type='text' class='txt_login' aaname='' /&gt;" Guid="d4c0b11c-c6d8-4ada-b9a2-6fbc212394e7" InformativeScreenshot="2b326a264f8b64c3f84065d83b79bcd2.png" IsResponsive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' title='| Amazon | Login' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                <uix:Target CVScreenId="93786349-8a45-4f06-a74c-80f7af8b0c52" CvTextArea="546, 285, 19, 10" CvTextArgument="Login:" CvType="Text" DesignTimeRectangle="547, 285, 19, 10" ElementType="Text" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='' aaname='                                         Login:                                     ' check:innerText='Login:' /&gt;" Guid="b65f9643-4414-41ac-beb1-e1741a105b67" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                      <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="None" DisplayName="Type Into" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="416,259" sap2010:WorkflowViewState.IdRef="NTypeInto_1" Text="[&quot;moustapha_diagne&quot; + &quot;[k(Tab)]&quot; + OptipriceCredentials.Password + &quot;[k(Enter)]&quot;]" Version="V4">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </uix:NTypeInto>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,170" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Trace" Message="[&quot;Renseignement Credentials -&gt; Réussite&quot;]" />
+                    </Sequence>
                   </Sequence>
-                </Sequence>
-              </uix:NCheckState.IfNotExists>
-              <uix:NCheckState.Target>
-                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/pri.aspx" CVScreenId="a6f3eacf-e4ea-499d-bd53-e266b15a83d4" CvElementArea="609, 273, 69, 45" CvType="Button" DesignTimeRectangle="622, 286, 40, 17" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Exporter les prix »' parentid='nav-subnav' tag='A' type='' class='sf-with-ul  parent_menu' check:innerText='Exporter les prix&amp;#xA;»' /&gt;" Guid="68d6abfa-eccc-4bbf-b8e0-cda2dbe0b68a" InformativeScreenshot="1bcab7d31bd9641eff1739a9dede016a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                  <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                      <uix:Target CVScreenId="a6f3eacf-e4ea-499d-bd53-e266b15a83d4" CvTextArea="578, 248, 158, 16" CvTextArgument="Cinematique de prix permanent" CvType="Text" DesignTimeRectangle="575, 247, 160, 15" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='HomeMenu' tag='SPAN' type='' class='' aaname='Cinématique de prix permanent' check:innerText='Cinématique de prix permanent' /&gt;" Guid="6df8de4f-4707-4996-b876-08cc4c5a872d" SearchSteps="FuzzySelector, CV" />
-                    </scg:List>
-                  </uix:TargetAnchorable.Anchors>
-                </uix:TargetAnchorable>
-              </uix:NCheckState.Target>
-            </uix:NCheckState>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Cinématique de prix per…'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_8" InteractionMode="WindowMessages" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/pri.aspx" CVScreenId="4d16ec68-29e2-48bc-bc3c-83f53df7f0a6" CvElementArea="609, 273, 69, 45" CvType="Button" DesignTimeRectangle="611, 275, 62, 39" DesignTimeScaleFactor="0.6666666865348816" ElementType="ListItem" FuzzySelectorArgument="&lt;webctrl type='' class='nav-subnav-item nav-category-button PriceRollOut' parentid='nav-subnav' tag='LI' aaname='' check:innerText='Exporter les prix&amp;#xA;»' /&gt;" Guid="1bdaa9d1-e8de-4546-9a7d-f613f8bf17ee" InformativeScreenshot="0c494b943691039e7284caec76d6bb9a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                  <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                      <uix:Target CVScreenId="4d16ec68-29e2-48bc-bc3c-83f53df7f0a6" CvTextArea="578, 248, 158, 16" CvTextArgument="Cinematique de prix permanent" CvType="Text" DesignTimeRectangle="575, 247, 160, 15" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='HomeMenu' tag='SPAN' type='' class='' aaname='Cinématique de prix permanent' check:innerText='Cinématique de prix permanent' /&gt;" Guid="e6298435-49a2-47e2-8a9a-97a61c20f2e2" SearchSteps="FuzzySelector, CV" />
-                    </scg:List>
-                  </uix:TargetAnchorable.Anchors>
-                  <uix:TargetAnchorable.PointOffset>
-                    <uix:PointOffset Position="BottomLeft" X="31" Y="-10" />
-                  </uix:TargetAnchorable.PointOffset>
-                </uix:TargetAnchorable>
-              </uix:NClick.Target>
-            </uix:NClick>
-            <Sequence DisplayName="Filters Sequence" sap:VirtualizedContainerService.HintSize="1048,1929" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                </uix:NCheckState.IfNotExists>
+                <uix:NCheckState.Target>
+                  <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/pri.aspx" CVScreenId="a6f3eacf-e4ea-499d-bd53-e266b15a83d4" CvElementArea="609, 273, 69, 45" CvType="Button" DesignTimeRectangle="622, 286, 40, 17" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Exporter les prix »' parentid='nav-subnav' tag='A' type='' class='sf-with-ul  parent_menu' check:innerText='Exporter les prix&amp;#xA;»' /&gt;" Guid="68d6abfa-eccc-4bbf-b8e0-cda2dbe0b68a" InformativeScreenshot="1bcab7d31bd9641eff1739a9dede016a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target CVScreenId="a6f3eacf-e4ea-499d-bd53-e266b15a83d4" CvTextArea="578, 248, 158, 16" CvTextArgument="Cinematique de prix permanent" CvType="Text" DesignTimeRectangle="575, 247, 160, 15" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='HomeMenu' tag='SPAN' type='' class='' aaname='Cinématique de prix permanent' check:innerText='Cinématique de prix permanent' /&gt;" Guid="6df8de4f-4707-4996-b876-08cc4c5a872d" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NCheckState.Target>
+              </uix:NCheckState>
+            </Sequence>
+            <Sequence DisplayName="ECRAN 3 - Page Carrefour pricing Suite" sap:VirtualizedContainerService.HintSize="1116,275" sap2010:WorkflowViewState.IdRef="Sequence_44">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Filtre principal'" sap:VirtualizedContainerService.HintSize="567,189" sap2010:WorkflowViewState.IdRef="NClick_9" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Cinématique de prix per…'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_8" InteractionMode="WindowMessages" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/pri.aspx" CVScreenId="4d16ec68-29e2-48bc-bc3c-83f53df7f0a6" CvElementArea="609, 273, 69, 45" CvType="Button" DesignTimeRectangle="611, 275, 62, 39" DesignTimeScaleFactor="0.6666666865348816" ElementType="ListItem" FuzzySelectorArgument="&lt;webctrl type='' class='nav-subnav-item nav-category-button PriceRollOut' parentid='nav-subnav' tag='LI' aaname='' check:innerText='Exporter les prix&amp;#xA;»' /&gt;" Guid="1bdaa9d1-e8de-4546-9a7d-f613f8bf17ee" InformativeScreenshot="0c494b943691039e7284caec76d6bb9a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target CVScreenId="4d16ec68-29e2-48bc-bc3c-83f53df7f0a6" CvTextArea="578, 248, 158, 16" CvTextArgument="Cinematique de prix permanent" CvType="Text" DesignTimeRectangle="575, 247, 160, 15" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='HomeMenu' tag='SPAN' type='' class='' aaname='Cinématique de prix permanent' check:innerText='Cinématique de prix permanent' /&gt;" Guid="e6298435-49a2-47e2-8a9a-97a61c20f2e2" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                    <uix:TargetAnchorable.PointOffset>
+                      <uix:PointOffset Position="BottomLeft" X="31" Y="-10" />
+                    </uix:TargetAnchorable.PointOffset>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+            </Sequence>
+            <Sequence DisplayName="ECRAN 4 - Validation &amp; Export Prix" sap:VirtualizedContainerService.HintSize="1116,4980" sap2010:WorkflowViewState.IdRef="Sequence_25">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Filtre principal'" sap:VirtualizedContainerService.HintSize="1082,190" sap2010:WorkflowViewState.IdRef="NClick_9" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
                 <uix:NClick.Target>
                   <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="33a77645-1179-46d2-9810-661e634ac686" CvElementArea="19, 278, 20, 17" CvType="Icon" DesignTimeRectangle="22, 279, 16, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aaname=' ' aria-role='presentation' tag='SPAN' type='' class='x-btn-icon-el x-btn-icon-el-default-toolbar-medium extjs-icon-folder ' /&gt;" Guid="31e45164-05ec-4a6d-b40c-ff4e2deb6919" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJjSURBVDhPrZBdTxNBFIb3D3rBhYk/QC80AQxGC6YxSKKIXEhLYoJKYiRGRb0QDYgGtZW2FKQt224/9qOlW7osIB+2Bdot+Hpm+omgJNqLp++c6Z5nZo6grRagmUSLUuCFuVvZbEEKKplbSUOY3YGqm1DSTejrUI3csaa/IShGHopRQDzkwlbwPrYWHZzt4DCMz72ILMwgISuEfCzlZAZKNsf7ax4SUkHmyPw0LP0BSlInrNgVWHEb9hIj2AiMYEsaO8Z27CmSLgdkfZP31zyCTGaG6J9CKTWMYuQSilJHhTCtwxebsoGl9EB39yOWMiDTLWueqrBAwklYyw66Hd0w3nWE/XAHtJdtUJ+fqaONtyH65CxCr3sguR5zB0NIZPNgiHPv6MlDKCW6sCt2Yk/s4ORD7TAmz2E3MYTi8ii94mEdK/0IB+YzqJ9ucwejSfgW1ooDm57zMNx2rHluctZnr2NfbOezLdEYjkDjsVL3EPS8agjjK3nEabHkm0AxOwTjwwWUM05Y6jVYWjdhgyVfPRmlGwVtFIH5L2CeipB+uNA/gVysDxteGw70fpST9gbayRxm7uB7wIFQJModXBhbyYGx5H+DVRfNTR2kD2+RtO9UDg0nQlN3ISpZ7mBUhXkEvo7DdHeibDrx0xw4nbVBFOQB+KbHEM1UZMwjsILhn3kB7f1lGIFeGAv201m8AfmjHXNBifdzKcGFbPFNSsI758es11vH46vmb3UN/2II4dQm7+ce9mRJ/wGJCp5EJL2DyB/ypP+b+5mUhFSwDYJt/G8t1E6pZK5+6r/WJKyc0prM4RdEkHlx1rxxaQAAAABJRU5ErkJggg==" InformativeScreenshot="36ee241710f9f3d0da9d604487db097a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
                     <uix:TargetAnchorable.Anchors>
@@ -439,216 +600,880 @@
                   </uix:TargetAnchorable>
                 </uix:NClick.Target>
               </uix:NClick>
-              <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="567,414" sap2010:WorkflowViewState.IdRef="CommentOut_1">
-                <ui:CommentOut.Body>
-                  <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="531,303" sap2010:WorkflowViewState.IdRef="Sequence_33">
-                    <sap:WorkflowViewStateService.ViewState>
-                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                      </scg:Dictionary>
-                    </sap:WorkflowViewStateService.ViewState>
-                    <Switch x:TypeArguments="x:Int32" DisplayName="Switch" sap:VirtualizedContainerService.HintSize="497,243" sap2010:WorkflowViewState.IdRef="Switch`1_1" />
-                  </Sequence>
-                </ui:CommentOut.Body>
-              </ui:CommentOut>
-              <Sequence DisplayName="LEX" sap:VirtualizedContainerService.HintSize="567,789" sap2010:WorkflowViewState.IdRef="Sequence_26">
+              <Sequence DisplayName="Sequence Filter Selection" sap:VirtualizedContainerService.HintSize="1082,1974" sap2010:WorkflowViewState.IdRef="Sequence_113">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <Sequence DisplayName="Proxi" sap:VirtualizedContainerService.HintSize="484,456" sap2010:WorkflowViewState.IdRef="Sequence_27">
+                <Sequence DisplayName="CLCV" sap:VirtualizedContainerService.HintSize="518,1718" sap2010:WorkflowViewState.IdRef="Sequence_22">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,123" sap2010:WorkflowViewState.IdRef="Sequence_30">
+                  <Sequence DisplayName="Bannière 30" sap:VirtualizedContainerService.HintSize="484,57" sap2010:WorkflowViewState.IdRef="Sequence_23">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,273" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 30 - Sct 1'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_10" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="625, 311, 65, 8" CvTextArgument="CLCV Bnr 30 Sct 1" CvType="Text" DesignTimeRectangle="613, 310, 225, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-2080' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='1) CLCV Bnr 30 - Sct 1' check:innerText='1) CLCV Bnr 30 - Sct 1' /&gt;" Guid="d1d6f56a-040a-4080-86b3-b42878626d38" InformativeScreenshot="cd3bf32fa4d8b8861260e949025936df.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="612, 277, 86, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="612, 278, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-2085' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="be226d5f-2c58-4997-aa0e-f968f4c0d2f9" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,273" sap2010:WorkflowViewState.IdRef="Sequence_120">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 30 - Sct 2'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_16" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="625, 327, 63, 8" CvTextArgument="CLCV Bnr 30 Sct2" CvType="Text" DesignTimeRectangle="613, 326, 225, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-2080' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='1) CLCV Bnr 30 - Sct 2' check:innerText='1) CLCV Bnr 30 - Sct 2' /&gt;" Guid="44c6b7b8-7217-42a1-b5ec-ce733418e96b" InformativeScreenshot="ec22f3527792b7625d823dda36f83106.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="612, 277, 86, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="612, 278, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-2085' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="86ff6592-76a9-49e5-8673-e15e66497598" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,273" sap2010:WorkflowViewState.IdRef="Sequence_121">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 30 - Sct 3'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_17" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="624, 342, 61, 8" CvTextArgument="CLCV Bnr 30 Sct" CvType="Text" DesignTimeRectangle="613, 341, 225, 14" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl class='x-grid-item' parentid='gridview-2080' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='1) CLCV Bnr 30 - Sct 3' check:innerText='1) CLCV Bnr 30 - Sct 3' /&gt;" Guid="fab754a0-43e0-44ca-afe4-9c5d8c209229" InformativeScreenshot="08fc421b88a161ae17593f8cfa4d56b8.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="612, 277, 86, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="612, 278, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-2085' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="cf6c203c-f286-47a6-9f0b-b708d8e160a0" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,273" sap2010:WorkflowViewState.IdRef="Sequence_122">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 30 - Sct 4'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_18" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="624, 358, 60, 8" CvTextArgument="CLCV Bnr 30 Sct" CvType="Text" DesignTimeRectangle="613, 357, 225, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-2080' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='1) CLCV Bnr 30 - Sct 4' check:innerText='1) CLCV Bnr 30 - Sct 4' /&gt;" Guid="fe294101-1123-444b-afcd-2aedc2101458" InformativeScreenshot="25a31da498956395fafd832707a3d149.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="612, 277, 86, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="612, 278, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-2085' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="69cf56bb-f5f8-4d12-adfb-4a9e064f71da" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,264" sap2010:WorkflowViewState.IdRef="Sequence_123">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 30 - Sct 6'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_19" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="624, 374, 62, 8" CvTextArgument="CLCV Bnr 30 Sct" CvType="Text" DesignTimeRectangle="613, 373, 225, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl class='x-grid-item' parentid='gridview-2080' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='1) CLCV Bnr 30 - Sct 6' check:innerText='1) CLCV Bnr 30 - Sct 6' /&gt;" Guid="526d28c4-084b-40df-9f2c-7e1448100afd" InformativeScreenshot="67c9a1ca0579056519a9790f3c69b856.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="612, 277, 86, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="612, 278, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-2085' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="ab6fa694-3b17-4429-b026-239fb7ad6d91" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
                   </Sequence>
-                  <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,123" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                  <Sequence DisplayName="Bannière 87" sap:VirtualizedContainerService.HintSize="484,1462" sap2010:WorkflowViewState.IdRef="Sequence_54">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,277" sap2010:WorkflowViewState.IdRef="Sequence_57">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 87 - Sct 1'" sap:VirtualizedContainerService.HintSize="416,183" sap2010:WorkflowViewState.IdRef="NClick_20" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="615, 389, 83, 8" CvTextArgument="2.1 CLOW Bmr 87 Sct 1" CvType="Text" DesignTimeRectangle="613, 388, 225, 14" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-2080' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='2.1 - CLCV Bnr 87 - Sct 1' check:innerText='2.1 - CLCV Bnr 87 - Sct 1' /&gt;" Guid="bc0b7ecd-6397-4ea2-8a5f-44bd7104fb31" InformativeScreenshot="4d78dcf5e9195d2742268256cd92330e.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="612, 277, 86, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="612, 278, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-2085' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="e428f3ee-0f9e-4c76-a43f-f33517790d06" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,277" sap2010:WorkflowViewState.IdRef="Sequence_69">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 87 - Sct 2'" sap:VirtualizedContainerService.HintSize="416,183" sap2010:WorkflowViewState.IdRef="NClick_21" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="511, 323, 64, 8" CvTextArgument="CLCV Binr 87 Sct2" CvType="Text" DesignTimeRectangle="490, 322, 226, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl class='x-grid-item' parentid='gridview-1853' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='2.2 - CLCV Bnr 87 - Sct 2' check:innerText='2.2 - CLCV Bnr 87 - Sct 2' /&gt;" Guid="c07e484d-7810-48bf-b2ab-03daca480104" InformativeScreenshot="71928259077c4ab4bb4da4805252d3f2.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="490, 195, 85, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="489, 196, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1858' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="c8ef6d51-659c-4c04-9d91-527b6b8ad9de" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,277" sap2010:WorkflowViewState.IdRef="Sequence_58">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 87 - Sct 3'" sap:VirtualizedContainerService.HintSize="416,183" sap2010:WorkflowViewState.IdRef="NClick_22" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="511, 339, 62, 8" CvTextArgument="CLCV Binr 87 Sct" CvType="Text" DesignTimeRectangle="490, 338, 226, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-1853' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='2.3 - CLCV Bnr 87 - Sct 3' check:innerText='2.3 - CLCV Bnr 87 - Sct 3' /&gt;" Guid="ba9074f3-a0e1-4ec2-8f88-a27ff7f74010" InformativeScreenshot="8739fef2b9cb3c723d7a31d07211a1ce.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="490, 195, 85, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="489, 196, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1858' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="d748b4c9-9e38-467c-8f6c-5ed04bff0f6f" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,273" sap2010:WorkflowViewState.IdRef="Sequence_59">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 87 - Sct 4'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_23" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="510, 354, 61, 8" CvTextArgument="CLCV Binr 87 Sct" CvType="Text" DesignTimeRectangle="490, 353, 226, 14" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl class='x-grid-item' parentid='gridview-1853' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='2.4 - CLCV Bnr 87 - Sct 4' check:innerText='2.4 - CLCV Bnr 87 - Sct 4' /&gt;" Guid="128ba379-1a9c-4836-84e9-0bb8285bb570" InformativeScreenshot="da621e0a6ad931db537e13aa256d4599.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="492, 213, 18, 8" CvTextArgument="Nom" CvType="Text" DesignTimeRectangle="494, 214, 217, 9" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Nom' class='x-column-header-text' tag='SPAN' type='' check:innerText='Nom' /&gt;" Guid="4bdce007-a157-4c7a-907d-7bf74b6e1d75" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,264" sap2010:WorkflowViewState.IdRef="Sequence_60">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 87 - Sct 6'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_24" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="615, 421, 83, 8" CvTextArgument="2.3 CLOW Bmr 87 Sct 3" CvType="Text" DesignTimeRectangle="613, 420, 225, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-2080' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='2.3 - CLCV Bnr 87 - Sct 3' check:innerText='2.3 - CLCV Bnr 87 - Sct 3' /&gt;" Guid="a2850131-376d-4edb-a413-63ad111a20f5" InformativeScreenshot="c5a8e75d5ef28dd550f94d426d878cae.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                                <uix:Target CVScreenId="4f9e4f45-048d-4b36-8091-b071894da8cf" CvTextArea="612, 277, 86, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="612, 278, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-2085' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="9c9cde53-319c-4dd9-a4a5-80026d43a4f0" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
                   </Sequence>
-                  <Sequence sap:VirtualizedContainerService.HintSize="450,116" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                  <Sequence DisplayName=" Market" sap:VirtualizedContainerService.HintSize="484,57" sap2010:WorkflowViewState.IdRef="Sequence_55">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,273" sap2010:WorkflowViewState.IdRef="Sequence_61">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Market - Sct 1'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_25" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="493, 432, 83, 8" CvTextArgument="4.1 CCV Market Sc 1" CvType="Text" DesignTimeRectangle="490, 431, 226, 14" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-1853' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='4.1 - CLCV Market - Sct 1' check:innerText='4.1 - CLCV Market - Sct 1' /&gt;" Guid="4c5abf79-d765-4d85-8871-4157647dad95" InformativeScreenshot="ecaa48cc30927a2045d2dd46af89c10a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="490, 195, 85, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="489, 196, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1858' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="11256643-358b-44a5-badd-83f08a938b8e" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,273" sap2010:WorkflowViewState.IdRef="Sequence_62">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Market - Sct 3'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_26" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="493, 448, 83, 8" CvTextArgument="4.2 CCV Market Sc 3" CvType="Text" DesignTimeRectangle="490, 447, 226, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl class='x-grid-item' parentid='gridview-1853' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='4.2 - CLCV Market - Sct 3' check:innerText='4.2 - CLCV Market - Sct 3' /&gt;" Guid="09196158-7da5-465f-9c9f-787c3f8babc4" InformativeScreenshot="934b9934d8d9aaa2871b2657fe100710.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="490, 195, 85, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="489, 196, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1858' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="57e9ff40-c389-4227-b59f-2a89860f7c40" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,264" sap2010:WorkflowViewState.IdRef="Sequence_64">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Market - Sct 6'" sap:VirtualizedContainerService.HintSize="416,181" sap2010:WorkflowViewState.IdRef="NClick_27" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="493, 464, 84, 8" CvTextArgument="4.3 CCV Market Sct 6" CvType="Text" DesignTimeRectangle="490, 463, 226, 13" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-1853' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='4.3 - CLCV Market - Sct 6' check:innerText='4.3 - CLCV Market - Sct 6' /&gt;" Guid="d33f9b58-76a9-4c28-bc1c-71286bc95fdf" InformativeScreenshot="1a4f6e764ffbf0bc338385e70d2d937a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                            <uix:TargetAnchorable.Anchors>
+                              <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                <uix:Target CVScreenId="10a92286-38b8-4e17-8d5d-21f5d7634901" CvTextArea="490, 195, 85, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="489, 196, 296, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1858' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="bce60611-cc0e-449f-b925-4f424246afc6" SearchSteps="FuzzySelector, CV" />
+                              </scg:List>
+                            </uix:TargetAnchorable.Anchors>
+                          </uix:TargetAnchorable>
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </Sequence>
+                  </Sequence>
+                  <Sequence DisplayName="Hyper" sap:VirtualizedContainerService.HintSize="484,48" sap2010:WorkflowViewState.IdRef="Sequence_56">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_65">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_66">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_68">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
                   </Sequence>
                 </Sequence>
-                <Sequence DisplayName="Market" sap:VirtualizedContainerService.HintSize="484,123" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                <Sequence DisplayName="LEX" sap:VirtualizedContainerService.HintSize="518,57" sap2010:WorkflowViewState.IdRef="Sequence_26">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
+                  <Sequence DisplayName="Proxi" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_27">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_30">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_40">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_41">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
+                  <Sequence DisplayName="Market" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_45">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_47">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_48">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_49">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
+                  <Sequence DisplayName="Hyper" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_29">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_50">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_51">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_52">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_53">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
                 </Sequence>
-                <Sequence DisplayName="Hyper" sap:VirtualizedContainerService.HintSize="484,116" sap2010:WorkflowViewState.IdRef="Sequence_29">
+                <Sequence DisplayName="DELIVEROO" sap:VirtualizedContainerService.HintSize="518,57" sap2010:WorkflowViewState.IdRef="Sequence_70">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
+                  <Sequence DisplayName="Proxi" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_83">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_73">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_75">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_76">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_77">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
+                  <Sequence DisplayName="Market" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_84">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_85">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_89">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_86">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_87">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_88">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
+                </Sequence>
+                <Sequence DisplayName="UBEREATS" sap:VirtualizedContainerService.HintSize="518,48" sap2010:WorkflowViewState.IdRef="Sequence_71">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Sequence DisplayName="Proxi" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_90">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_96">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_97">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_98">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_99">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
+                  <Sequence DisplayName="Market" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_91">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_100">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_101">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_102">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_103">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_104">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
+                  <Sequence DisplayName="XL Market" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_92">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_94">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_95">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_105">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_106">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_107">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
+                  <Sequence DisplayName="Hyper" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_93">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_108">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_109">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 3" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_110">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 4" sap:VirtualizedContainerService.HintSize="450,57" sap2010:WorkflowViewState.IdRef="Sequence_111">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                    <Sequence DisplayName="Secteur 6" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Sequence_112">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </Sequence>
                 </Sequence>
               </Sequence>
-              <Sequence DisplayName="CLCV" sap:VirtualizedContainerService.HintSize="567,443" sap2010:WorkflowViewState.IdRef="Sequence_22">
+              <Sequence DisplayName="Sequence Export Prix" sap:VirtualizedContainerService.HintSize="1082,1037" sap2010:WorkflowViewState.IdRef="Sequence_114">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Filtre principal'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_11" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                  <uix:NClick.Target>
+                    <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="97700c55-8512-4cbd-8f4b-7b97db1fb595" CvTextArea="149, 282, 21, 8" CvTextArgument="Fitrer" CvType="Text" DesignTimeRectangle="132, 279, 40, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' class='x-btn-button x-btn-button-default-toolbar-medium x-btn-text  x-btn-icon x-btn-icon-left x-btn-button-center ' tag='SPAN' aaname='' check:innerText='Filtrer' /&gt;" Guid="2a4a4d83-dc68-4478-aa0e-36dbda29964a" InformativeScreenshot="f3770e35dc88e93f420ec297a7ef8425.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                      <uix:TargetAnchorable.Anchors>
+                        <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                          <uix:Target CVScreenId="97700c55-8512-4cbd-8f4b-7b97db1fb595" CvTextArea="12, 258, 55, 9" CvTextArgument="Filtre principal" CvType="Text" DesignTimeRectangle="12, 258, 170, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1834' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Filtre principal' check:innerText='Filtre principal' /&gt;" Guid="5b38b900-f0c4-45c2-8e98-bdd4d236f1b7" SearchSteps="FuzzySelector, CV" />
+                        </scg:List>
+                      </uix:TargetAnchorable.Anchors>
+                    </uix:TargetAnchorable>
+                  </uix:NClick.Target>
+                </uix:NClick>
+                <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sélectionner'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_12" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                  <uix:NClick.Target>
+                    <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="cb906fc8-f7cd-449d-9050-07912c93e6ff" CvTextArea="414, 265, 42, 7" CvTextArgument="Selectiommer" CvType="Text" DesignTimeRectangle="392, 260, 66, 21" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' class='x-btn-button x-btn-button-default-toolbar-large x-btn-text  x-btn-icon x-btn-icon-left x-btn-button-center ' tag='SPAN' aaname='' check:innerText='Sélectionner' /&gt;" Guid="7d45ecbf-b400-4bd4-9a40-643610138d98" InformativeScreenshot="cdcff864a9d9d66ae46b4cde4024313e.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive" />
+                  </uix:NClick.Target>
+                </uix:NClick>
+                <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sélectionner toutes les…'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_13" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                  <uix:NClick.Target>
+                    <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="e81f5103-4459-4752-84c5-742d9711c38b" CvTextArea="410, 290, 97, 9" CvTextArgument="Selectiommer toutes les lignes" CvType="Text" DesignTimeRectangle="412, 287, 94, 15" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Sélectionner toutes les lignes' tag='SPAN' type='' class='x-menu-item-text x-menu-item-text-default x-menu-item-indent' check:innerText='Sélectionner toutes les lignes' /&gt;" Guid="02c15908-fb85-474b-841e-bf1d46793df5" InformativeScreenshot="480effb8e238dc8ea071a02de0a0b953.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                      <uix:TargetAnchorable.Anchors>
+                        <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                          <uix:Target CVScreenId="e81f5103-4459-4752-84c5-742d9711c38b" CvTextArea="414, 265, 42, 8" CvTextArgument="Selectiommer" CvType="Text" DesignTimeRectangle="413, 265, 45, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Sélectionner' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' check:innerText='Sélectionner' /&gt;" Guid="296a373b-a603-4868-aa1d-7f1a2ab5770d" SearchSteps="FuzzySelector, CV" />
+                        </scg:List>
+                      </uix:TargetAnchorable.Anchors>
+                    </uix:TargetAnchorable>
+                  </uix:NClick.Target>
+                </uix:NClick>
+                <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Demande d'export/Annule…'" sap:VirtualizedContainerService.HintSize="416,190" sap2010:WorkflowViewState.IdRef="NClick_14" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                  <uix:NClick.Target>
+                    <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="43f39720-f5ed-43db-acc4-277ba455a605" CvTextArea="55, 257, 115, 9" CvTextArgument="Demande export/Annuler l'export" CvType="Text" DesignTimeRectangle="53, 257, 119, 11" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnInnerEl' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' aaname='Demande d&amp;apos;export/Annuler l&amp;apos;export' check:innerText='Demande d&amp;apos;export/Annuler l&amp;apos;export' /&gt;" Guid="26406fd0-8a01-46ee-b233-d7336bffe924" InformativeScreenshot="d80f69be54c126f2a9a31566d11bd1ff.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                      <uix:TargetAnchorable.Anchors>
+                        <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                          <uix:Target CVScreenId="43f39720-f5ed-43db-acc4-277ba455a605" CvElementArea="32, 252, 21, 20" CvType="Icon" DesignTimeRectangle="32, 252, 21, 21" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnIconEl' tag='SPAN' type='' class='x-btn-icon-el x-btn-icon-el-default-toolbar-large extjs-icon-valid ' aaname=' ' /&gt;" Guid="3f8e9967-aa99-4e72-88ef-24ad8ff966db" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOHSURBVEhLvVPfT1tlGD4Hlpi4RROSZZoOkWmy/8AoF/PGRU22v8QfifPGyy3BROfUZe7A6WnLQDbnWOhWLsYQDtBCB5G2cvrjAG1Pm7DJdjnYFoe0Pj7fd4ppT5kx0Xrx5Hm/93vf5/netz2K8+AJSoTz4HGN//uz4tx/LBOtZE4iDq5zq1gp0qnV+H9MChtuILhQ491z/v4jJJ0yNPMjfH6rB2fG3mhAL3Oa+TFSpTLyG4+a+nfPighk0sPCIFUq4dLCZwgvv4PLpg9DPx1qwDBzN3gnapKsLbBnLz1FvoCo5/zGFhKOA3/0FEattzFoHoAxoSIwoXigyrtR6xj8s59yagdr7PXqyXXJ1cikGy8ViwjFP8H1dA8uze6HMUnBqUYEJav4LvIi/Le6cT3zFntOIcFeV8/VElDyv9ZeX8dX4kGMZHowOPc8/DMUm61BxLWzf0aFPvEqss4o7PINhMyjGMm+yd5Qk55cl3Ct5+D0efzwy1EEYvvQf7sL2vhBGDGuK0YDQo+q6GPeKv6IncpTbP/+BGNzH2Dg58MIsderp6zRyYuA+Q2Gl4/AMI8g44xQ7Cr8Zjf8cVVCn+pGujiCamWHJtvIlcIwpl/DsNWNoPltk94zTM4hsHQQY/MfyldWKLRcuIKLU524ONkJq8AJdp5KAxFrZieMhXYMp7v4O33dpKes3nODeg6YZzGYeZkreh3Zclia/FGtIFO6iWwpgmq1SpNteafN+KAvcZVLbRjK+GBMnWvS+2uS1To2zC/wvf0S/Kl2aFG+3LlG0d8oXiG4Ik6xXLiKvlgX9JQKI6UQKobsQ+z9skFPQFm5t0W3LdRziHsNZn0YyO6DnlahxXzI8R+0u6IMJ+ib64Ru0cCiARFibYCThMzzTXpyXV5E02n0Rk7AyHUgZLejP6tAm+dE/LGt4jVo8cPQMzTI0IAQNaK2N3JS9nr1lJW7rlsjb2J8IYEz4feh515AMN+G/lUVF+IduHCnAzpjw+a3ssKPcq1N1oja24tJ2OubTXpyXSt087J99yEmk0k2v4s++zkMlFUESxQtqQiRJZjTeHc6/B5rE+ypGXj0FJtOz0Ju/SHG+brT4eP4avEVnF0g7tTAWOTE3fhiQtbupSHwtyYuNhG1bETi07g5ZyIyPy0hY+bEnajZu9eFkqsFufUat+D8Dyb591By/De0GjRxR2sdtvAnKr04kY0qupMAAAAASUVORK5CYII=" SearchSteps="FuzzySelector, CV" />
+                        </scg:List>
+                      </uix:TargetAnchorable.Anchors>
+                    </uix:TargetAnchorable>
+                  </uix:NClick.Target>
+                </uix:NClick>
+                <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Exporter'" sap:VirtualizedContainerService.HintSize="416,183" sap2010:WorkflowViewState.IdRef="NClick_15" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                  <uix:NClick.Target>
+                    <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="962ad743-3d24-41fa-8eed-fa6a7b972183" CvTextArea="50, 282, 30, 9" CvTextArgument="Exporter" CvType="Text" DesignTimeRectangle="32, 279, 78, 15" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aria-role='menuitem' parentid='menuitem-1648' tag='A' type='' class='x-menu-item-link x-focus x-menu-item-focus x-menu-item-default-focus' aaname='Exporter' check:innerText='Exporter' /&gt;" Guid="cb25d3a3-e0b4-4204-85dd-f5554897235e" InformativeScreenshot="a5e0650a26def52951bea363773617a7.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                      <uix:TargetAnchorable.Anchors>
+                        <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                          <uix:Target CVScreenId="962ad743-3d24-41fa-8eed-fa6a7b972183" CvElementArea="29, 248, 151, 28" CvType="Button" DesignTimeRectangle="53, 257, 119, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnInnerEl' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' aaname='Demande d&amp;apos;export/Annuler l&amp;apos;export' check:innerText='Demande d&amp;apos;export/Annuler l&amp;apos;export' /&gt;" Guid="fce2ecf2-7b46-4961-9585-aba561515676" SearchSteps="FuzzySelector, CV" />
+                        </scg:List>
+                      </uix:TargetAnchorable.Anchors>
+                    </uix:TargetAnchorable>
+                  </uix:NClick.Target>
+                </uix:NClick>
+              </Sequence>
+              <Sequence DisplayName="Sequence Gestion PopUp" sap:VirtualizedContainerService.HintSize="1082,1692" sap2010:WorkflowViewState.IdRef="Sequence_115">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <Sequence DisplayName="Bannière 30" sap:VirtualizedContainerService.HintSize="484,356" sap2010:WorkflowViewState.IdRef="Sequence_23">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,269" sap2010:WorkflowViewState.IdRef="Sequence_24">
-                    <sap:WorkflowViewStateService.ViewState>
-                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                      </scg:Dictionary>
-                    </sap:WorkflowViewStateService.ViewState>
-                    <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 30 - Sct 1'" sap:VirtualizedContainerService.HintSize="416,182" sap2010:WorkflowViewState.IdRef="NClick_10" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-                      <uix:NClick.Target>
-                        <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="e42ca3e2-5b59-4f73-bef6-b1be7f096950" CvTextArea="267, 293, 65, 8" CvTextArgument="CLOW Bmr 30 Sct 1" CvType="Text" DesignTimeRectangle="264, 292, 247, 14" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-1866' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='CLCV Bnr 30 - Sct 1' check:innerText='CLCV Bnr 30 - Sct 1' /&gt;" Guid="ad55d185-363d-494e-918a-4fe3b8504a39" InformativeScreenshot="950d8a3ac7078f1a76bdb64ee0bc2314.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                          <uix:TargetAnchorable.Anchors>
-                            <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                              <uix:Target CVScreenId="e42ca3e2-5b59-4f73-bef6-b1be7f096950" CvTextArea="264, 259, 85, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="263, 260, 314, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1871' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="b2b476ff-8d85-4bda-84f0-8216d7b8e1ee" SearchSteps="FuzzySelector, CV" />
-                            </scg:List>
-                          </uix:TargetAnchorable.Anchors>
-                        </uix:TargetAnchorable>
-                      </uix:NClick.Target>
-                    </uix:NClick>
-                  </Sequence>
-                </Sequence>
+                <uix:NCheckState DisplayName="Check App State 'Validation et export de…'" sap:VirtualizedContainerService.HintSize="1048,1605" sap2010:WorkflowViewState.IdRef="NCheckState_2" Mode="WaitDisappear" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Timeout="180" Version="V4">
+                  <uix:NCheckState.IfExists>
+                    <Sequence DisplayName="Target disappears" sap:VirtualizedContainerService.HintSize="544,1361" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="510,1299" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                        <TryCatch.Try>
+                          <uix:NClosePopup PopupException="{x:Null}" PopupHandled="{x:Null}" DisplayName="Close Popup" EnableAI="True" sap:VirtualizedContainerService.HintSize="334,159" sap2010:WorkflowViewState.IdRef="NClosePopup_1" PreferredButtons="[New String(){&quot;Close&quot;,&quot;Cancel&quot;,&quot;Ok&quot;}]" Version="V4" />
+                        </TryCatch.Try>
+                        <TryCatch.Catches>
+                          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="476,216" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ActivityAction x:TypeArguments="s:Exception">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                              </ActivityAction.Argument>
+                              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,145" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Pas de Pop-Up&quot;]" />
+                            </ActivityAction>
+                          </Catch>
+                        </TryCatch.Catches>
+                        <TryCatch.Finally>
+                          <Sequence sap:VirtualizedContainerService.HintSize="472,645" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,583" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+                              <TryCatch.Finally>
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,145" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Trace" Message="[&quot;Pas de Pop-Up 2&quot;]" />
+                              </TryCatch.Finally>
+                              <TryCatch.Try>
+                                <uix:NClosePopup PopupException="{x:Null}" PopupHandled="{x:Null}" DisplayName="Close Popup" EnableAI="True" sap:VirtualizedContainerService.HintSize="334,159" sap2010:WorkflowViewState.IdRef="NClosePopup_2" PreferredButtons="[New String(){&quot;Close&quot;,&quot;Cancel&quot;,&quot;Ok&quot;}]" Version="V4" />
+                              </TryCatch.Try>
+                            </TryCatch>
+                          </Sequence>
+                        </TryCatch.Finally>
+                      </TryCatch>
+                    </Sequence>
+                  </uix:NCheckState.IfExists>
+                  <uix:NCheckState.IfNotExists>
+                    <Sequence DisplayName="Target does not disappear" sap:VirtualizedContainerService.HintSize="450,92" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </uix:NCheckState.IfNotExists>
+                  <uix:NCheckState.Target>
+                    <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="2fa17c59-7be4-426e-a553-b1105a358c04" CvTextArea="633, 605, 59, 9" CvTextArgument="Veuillez patienter..." CvType="Text" DesignTimeRectangle="618, 602, 78, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' parentid='ext-element-26' tag='DIV' type='' class='x-mask-msg-inner' aaname='' check:innerText='Veuillez patienter...' /&gt;" Guid="da0e867d-a8fe-41c5-834b-ec0bfcba18e3" InformativeScreenshot="defd2d7d3e7b6cf9944592d5561f42b3.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                      <uix:TargetAnchorable.Anchors>
+                        <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                          <uix:Target CVScreenId="2fa17c59-7be4-426e-a553-b1105a358c04" CvTextArea="26, 229, 36, 10" CvTextArgument="Eldaton" CvType="Text" DesignTimeRectangle="25, 229, 105, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='fullscreenDiv' tag='SPAN' type='' class='' aaname='Validation et export de prix' check:innerText='Validation et export de prix' /&gt;" Guid="b862e240-8309-4dbc-8550-183769e64b04" SearchSteps="FuzzySelector, CV" />
+                        </scg:List>
+                      </uix:TargetAnchorable.Anchors>
+                    </uix:TargetAnchorable>
+                  </uix:NCheckState.Target>
+                </uix:NCheckState>
               </Sequence>
             </Sequence>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Filtre principal'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_11" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="97700c55-8512-4cbd-8f4b-7b97db1fb595" CvTextArea="149, 282, 21, 8" CvTextArgument="Fitrer" CvType="Text" DesignTimeRectangle="132, 279, 40, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' class='x-btn-button x-btn-button-default-toolbar-medium x-btn-text  x-btn-icon x-btn-icon-left x-btn-button-center ' tag='SPAN' aaname='' check:innerText='Filtrer' /&gt;" Guid="2a4a4d83-dc68-4478-aa0e-36dbda29964a" InformativeScreenshot="f3770e35dc88e93f420ec297a7ef8425.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                  <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                      <uix:Target CVScreenId="97700c55-8512-4cbd-8f4b-7b97db1fb595" CvTextArea="12, 258, 55, 9" CvTextArgument="Filtre principal" CvType="Text" DesignTimeRectangle="12, 258, 170, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1834' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Filtre principal' check:innerText='Filtre principal' /&gt;" Guid="5b38b900-f0c4-45c2-8e98-bdd4d236f1b7" SearchSteps="FuzzySelector, CV" />
-                    </scg:List>
-                  </uix:TargetAnchorable.Anchors>
-                </uix:TargetAnchorable>
-              </uix:NClick.Target>
-            </uix:NClick>
-            <uix:NCheckState DisplayName="Check App State 'Validation et export de…'" sap:VirtualizedContainerService.HintSize="1048,2342" sap2010:WorkflowViewState.IdRef="NCheckState_2" Mode="WaitDisappear" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Timeout="180" Version="V4">
-              <uix:NCheckState.IfExists>
-                <Sequence DisplayName="Target disappears" sap:VirtualizedContainerService.HintSize="544,2100" sap2010:WorkflowViewState.IdRef="Sequence_8">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sélectionner'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_12" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-                    <uix:NClick.Target>
-                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="cb906fc8-f7cd-449d-9050-07912c93e6ff" CvTextArea="414, 265, 42, 7" CvTextArgument="Selectiommer" CvType="Text" DesignTimeRectangle="392, 260, 66, 21" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' class='x-btn-button x-btn-button-default-toolbar-large x-btn-text  x-btn-icon x-btn-icon-left x-btn-button-center ' tag='SPAN' aaname='' check:innerText='Sélectionner' /&gt;" Guid="7d45ecbf-b400-4bd4-9a40-643610138d98" InformativeScreenshot="cdcff864a9d9d66ae46b4cde4024313e.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive" />
-                    </uix:NClick.Target>
-                  </uix:NClick>
-                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sélectionner toutes les…'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_13" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-                    <uix:NClick.Target>
-                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="e81f5103-4459-4752-84c5-742d9711c38b" CvTextArea="410, 290, 97, 9" CvTextArgument="Selectiommer toutes les lignes" CvType="Text" DesignTimeRectangle="412, 287, 94, 15" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Sélectionner toutes les lignes' tag='SPAN' type='' class='x-menu-item-text x-menu-item-text-default x-menu-item-indent' check:innerText='Sélectionner toutes les lignes' /&gt;" Guid="02c15908-fb85-474b-841e-bf1d46793df5" InformativeScreenshot="480effb8e238dc8ea071a02de0a0b953.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                        <uix:TargetAnchorable.Anchors>
-                          <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                            <uix:Target CVScreenId="e81f5103-4459-4752-84c5-742d9711c38b" CvTextArea="414, 265, 42, 8" CvTextArgument="Selectiommer" CvType="Text" DesignTimeRectangle="413, 265, 45, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Sélectionner' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' check:innerText='Sélectionner' /&gt;" Guid="296a373b-a603-4868-aa1d-7f1a2ab5770d" SearchSteps="FuzzySelector, CV" />
-                          </scg:List>
-                        </uix:TargetAnchorable.Anchors>
-                      </uix:TargetAnchorable>
-                    </uix:NClick.Target>
-                  </uix:NClick>
-                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Demande d'export/Annule…'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_14" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-                    <uix:NClick.Target>
-                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="43f39720-f5ed-43db-acc4-277ba455a605" CvTextArea="55, 257, 115, 9" CvTextArgument="Demande export/Annuler l'export" CvType="Text" DesignTimeRectangle="53, 257, 119, 11" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnInnerEl' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' aaname='Demande d&amp;apos;export/Annuler l&amp;apos;export' check:innerText='Demande d&amp;apos;export/Annuler l&amp;apos;export' /&gt;" Guid="26406fd0-8a01-46ee-b233-d7336bffe924" InformativeScreenshot="d80f69be54c126f2a9a31566d11bd1ff.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                        <uix:TargetAnchorable.Anchors>
-                          <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                            <uix:Target CVScreenId="43f39720-f5ed-43db-acc4-277ba455a605" CvElementArea="32, 252, 21, 20" CvType="Icon" DesignTimeRectangle="32, 252, 21, 21" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnIconEl' tag='SPAN' type='' class='x-btn-icon-el x-btn-icon-el-default-toolbar-large extjs-icon-valid ' aaname=' ' /&gt;" Guid="3f8e9967-aa99-4e72-88ef-24ad8ff966db" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOHSURBVEhLvVPfT1tlGD4Hlpi4RROSZZoOkWmy/8AoF/PGRU22v8QfifPGyy3BROfUZe7A6WnLQDbnWOhWLsYQDtBCB5G2cvrjAG1Pm7DJdjnYFoe0Pj7fd4ppT5kx0Xrx5Hm/93vf5/netz2K8+AJSoTz4HGN//uz4tx/LBOtZE4iDq5zq1gp0qnV+H9MChtuILhQ491z/v4jJJ0yNPMjfH6rB2fG3mhAL3Oa+TFSpTLyG4+a+nfPighk0sPCIFUq4dLCZwgvv4PLpg9DPx1qwDBzN3gnapKsLbBnLz1FvoCo5/zGFhKOA3/0FEattzFoHoAxoSIwoXigyrtR6xj8s59yagdr7PXqyXXJ1cikGy8ViwjFP8H1dA8uze6HMUnBqUYEJav4LvIi/Le6cT3zFntOIcFeV8/VElDyv9ZeX8dX4kGMZHowOPc8/DMUm61BxLWzf0aFPvEqss4o7PINhMyjGMm+yd5Qk55cl3Ct5+D0efzwy1EEYvvQf7sL2vhBGDGuK0YDQo+q6GPeKv6IncpTbP/+BGNzH2Dg58MIsderp6zRyYuA+Q2Gl4/AMI8g44xQ7Cr8Zjf8cVVCn+pGujiCamWHJtvIlcIwpl/DsNWNoPltk94zTM4hsHQQY/MfyldWKLRcuIKLU524ONkJq8AJdp5KAxFrZieMhXYMp7v4O33dpKes3nODeg6YZzGYeZkreh3Zclia/FGtIFO6iWwpgmq1SpNteafN+KAvcZVLbRjK+GBMnWvS+2uS1To2zC/wvf0S/Kl2aFG+3LlG0d8oXiG4Ik6xXLiKvlgX9JQKI6UQKobsQ+z9skFPQFm5t0W3LdRziHsNZn0YyO6DnlahxXzI8R+0u6IMJ+ib64Ru0cCiARFibYCThMzzTXpyXV5E02n0Rk7AyHUgZLejP6tAm+dE/LGt4jVo8cPQMzTI0IAQNaK2N3JS9nr1lJW7rlsjb2J8IYEz4feh515AMN+G/lUVF+IduHCnAzpjw+a3ssKPcq1N1oja24tJ2OubTXpyXSt087J99yEmk0k2v4s++zkMlFUESxQtqQiRJZjTeHc6/B5rE+ypGXj0FJtOz0Ju/SHG+brT4eP4avEVnF0g7tTAWOTE3fhiQtbupSHwtyYuNhG1bETi07g5ZyIyPy0hY+bEnajZu9eFkqsFufUat+D8Dyb591By/De0GjRxR2sdtvAnKr04kY0qupMAAAAASUVORK5CYII=" SearchSteps="FuzzySelector, CV" />
-                          </scg:List>
-                        </uix:TargetAnchorable.Anchors>
-                      </uix:TargetAnchorable>
-                    </uix:NClick.Target>
-                  </uix:NClick>
-                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Exporter'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_15" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
-                    <uix:NClick.Target>
-                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="962ad743-3d24-41fa-8eed-fa6a7b972183" CvTextArea="50, 282, 30, 9" CvTextArgument="Exporter" CvType="Text" DesignTimeRectangle="32, 279, 78, 15" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aria-role='menuitem' parentid='menuitem-1648' tag='A' type='' class='x-menu-item-link x-focus x-menu-item-focus x-menu-item-default-focus' aaname='Exporter' check:innerText='Exporter' /&gt;" Guid="cb25d3a3-e0b4-4204-85dd-f5554897235e" InformativeScreenshot="a5e0650a26def52951bea363773617a7.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                        <uix:TargetAnchorable.Anchors>
-                          <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                            <uix:Target CVScreenId="962ad743-3d24-41fa-8eed-fa6a7b972183" CvElementArea="29, 248, 151, 28" CvType="Button" DesignTimeRectangle="53, 257, 119, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnInnerEl' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' aaname='Demande d&amp;apos;export/Annuler l&amp;apos;export' check:innerText='Demande d&amp;apos;export/Annuler l&amp;apos;export' /&gt;" Guid="fce2ecf2-7b46-4961-9585-aba561515676" SearchSteps="FuzzySelector, CV" />
-                          </scg:List>
-                        </uix:TargetAnchorable.Anchors>
-                      </uix:TargetAnchorable>
-                    </uix:NClick.Target>
-                  </uix:NClick>
-                  <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="510,1282" sap2010:WorkflowViewState.IdRef="TryCatch_3">
-                    <TryCatch.Try>
-                      <uix:NClosePopup PopupException="{x:Null}" PopupHandled="{x:Null}" DisplayName="Close Popup" EnableAI="True" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="NClosePopup_1" PreferredButtons="[New String(){&quot;Close&quot;,&quot;Cancel&quot;,&quot;Ok&quot;}]" Version="V4" />
-                    </TryCatch.Try>
-                    <TryCatch.Catches>
-                      <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="476,213" sap2010:WorkflowViewState.IdRef="Catch`1_3">
-                        <sap:WorkflowViewStateService.ViewState>
-                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                          </scg:Dictionary>
-                        </sap:WorkflowViewStateService.ViewState>
-                        <ActivityAction x:TypeArguments="s:Exception">
-                          <ActivityAction.Argument>
-                            <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
-                          </ActivityAction.Argument>
-                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,143" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Pas de Pop-Up&quot;]" />
-                        </ActivityAction>
-                      </Catch>
-                    </TryCatch.Catches>
-                    <TryCatch.Finally>
-                      <Sequence sap:VirtualizedContainerService.HintSize="472,637" sap2010:WorkflowViewState.IdRef="Sequence_20">
-                        <sap:WorkflowViewStateService.ViewState>
-                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                          </scg:Dictionary>
-                        </sap:WorkflowViewStateService.ViewState>
-                        <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,575" sap2010:WorkflowViewState.IdRef="TryCatch_4">
-                          <TryCatch.Finally>
-                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,143" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Pas de Pop-Up 2&quot;]" />
-                          </TryCatch.Finally>
-                          <TryCatch.Try>
-                            <uix:NClosePopup PopupException="{x:Null}" PopupHandled="{x:Null}" DisplayName="Close Popup" EnableAI="True" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="NClosePopup_2" PreferredButtons="[New String(){&quot;Close&quot;,&quot;Cancel&quot;,&quot;Ok&quot;}]" Version="V4" />
-                          </TryCatch.Try>
-                        </TryCatch>
-                      </Sequence>
-                    </TryCatch.Finally>
-                  </TryCatch>
-                </Sequence>
-              </uix:NCheckState.IfExists>
-              <uix:NCheckState.IfNotExists>
-                <Sequence DisplayName="Target does not disappear" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Sequence_9">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                </Sequence>
-              </uix:NCheckState.IfNotExists>
-              <uix:NCheckState.Target>
-                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="2fa17c59-7be4-426e-a553-b1105a358c04" CvTextArea="633, 605, 59, 9" CvTextArgument="Veuillez patienter..." CvType="Text" DesignTimeRectangle="618, 602, 78, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' parentid='ext-element-26' tag='DIV' type='' class='x-mask-msg-inner' aaname='' check:innerText='Veuillez patienter...' /&gt;" Guid="da0e867d-a8fe-41c5-834b-ec0bfcba18e3" InformativeScreenshot="defd2d7d3e7b6cf9944592d5561f42b3.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
-                  <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                      <uix:Target CVScreenId="2fa17c59-7be4-426e-a553-b1105a358c04" CvTextArea="26, 229, 36, 10" CvTextArgument="Eldaton" CvType="Text" DesignTimeRectangle="25, 229, 105, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='fullscreenDiv' tag='SPAN' type='' class='' aaname='Validation et export de prix' check:innerText='Validation et export de prix' /&gt;" Guid="b862e240-8309-4dbc-8550-183769e64b04" SearchSteps="FuzzySelector, CV" />
-                    </scg:List>
-                  </uix:TargetAnchorable.Anchors>
-                </uix:TargetAnchorable>
-              </uix:NCheckState.Target>
-            </uix:NCheckState>
           </Sequence>
         </ActivityAction>
       </uix:NApplicationCard.Body>
@@ -656,5 +1481,6 @@
         <uix:TargetApp Area="-1288, -138, 1296, 992" BrowserType="Chrome" ContentHash="dfJdrtWRp0ee7cFhaCrIEg" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAbxSURBVFhHpZZtTFvnFcf9pWuypg3tmjVrGmLeEoMBG2PaJBDb2CkvyQJpvlXtFqRpmrSXT5s67a3pl0nTptXkhdAklEsCbZdG3VsrVe3AhhBCs3ZDi5ZAo21OA5hAOztNmrXhXj9n//M8j415SUe7I/30P+fh+vzPufcasC03YgF3zkzQ0zITrDLAyPshb3ImVEXTQS/NBDn3RmeClcZ0qHIvX6s/9v/HVIPbfjVU1com2kxcra2k6VovqBQM14sIVBpTAbddt/nsoTb2htlUGgWUWcYQ9dWAR0wFOPcgV8r1VMCj8AOfZ59uufzgyWES00a6sUfm8ww0cTZiuPZViLi/Qp1xrohNbV7m3ZiurXChUSzbIIO/QjDKUBlpE4r73BmdhE5ucys4V/X/HoI3h1EsvYFSjTaa9Kmm8W3aSDXPMJGmxkWTNS4BBaoer3ZhCMfSQ/Azh1FMGWU1z5ipxnIA1hq3kDUbaENlJHMxLmul49XljFDqii35LZnwucMZE4XI3khvo41Uzg1lzc1l7aIrOGO0KV3ZupAycWVLWVjbqnC/tNve/h3/nAmboqk2I7mNNpn57jfoxss9ZMYnKR3i5rskZl4la2QXWecqGcGaYn3LQ5JzHpx5BM5kTcNZ70PlS3uMbUYzjYUq1Fb6dknFxDKvr6YbJ3u0JVE8Kah/bBaYdGkqpU8xzNSLZL3jJ/OtChgxbgzhxjDQYbeqoajVXXAbu3M8LzxGzL4fBjO3io1Z39tSRuN1W+nWpTFp8JeYSd8yPqKqZ65R1T4N8qbwdYqOzsprxM0xst6ugZmLDZUOc85aDi3HEOVJGsG74H5hd4u7ZzdVANb+Jq80ZfCsBOv133TLxkein5AXhhmezso1R3ENh4h3K7PhMk1pljJOMXumpMXm7m42ALm6m4S7p1k8+Ys6ury5lN7b7BTMxGP1siFvV/l0UuLROse1eefv4C5xpC7sFdZZJ5lnS8hagtRwiWFzdTdHXScwwIkmTTO9useLIZwUe8RJN177nWy289kPqeJnyTlglNF0rutvdt6QnxFTJ4R5thhm2TgwlINS0NRQ8Yit/HhTsvz4LkpT1rWLth9spL/7yij2cIm4dWmUxuIWudF8MYnbkKTJJF7MTyZguBGGmiEJMSZInS1K2MqMr8JUImSu659/u5piVcWCN4lcnCXXTxNLA7P5dYLKoRH9QlpDRWSeKSSLQW4NaZV1gbCVdu6kUpiWGjuF1C6lj7Q30vkap2zSd/EWlaHpQtgoW7PP+zA0h3WmAEb5wjoDhgowTD7O5uABks7OHUKxk6BAqvjeUz5hxidoMpGi0p/8+zMxiscmProAkzwyB/Ogdgxhl7XKN3CdsJU8v+OvJR2NpNhBqGXuZH2+UQz2n5SbtHRcJycaO38MWD+Ful9dk59JTZ+CGRvlCnMwlyzJBrBecG4Oro/aHB0NRvGxRpqjQQ7gONYgOP/6a0/JZn/+1yyVwLwYKP1A5nP13HkvHhmH9fYWMk+vBw/B9CHBqnOyWE+vM2yOow0tIGPIyPpovQCsdPy8+ioe6rtJjh99QA6YSF0Izg/1/kdee228E4brYLYO2z6I/EGYK6y0Dqzba7MbgZziI/XJTUfqKRsH69E6wXi79ojR9/8hG//pwi0K/jJJm2CYzdeOfUjn/qlevInEu5QYLCFz4CuatTBdK9JqnX5A5hTNUX+WNz1X37rpuTraqJH5kTqRroHwGntE1/nfSgOOi5OWHIaZwEuaDr6m849bsN1aGD+QwWLt/7JUa2CNsPrXGNKcw9HeYN/Y/igxRVrTeRaisH27CPQ8Sa+MvkEX9R3hGL9+lYy/vUJP/P4H5O/wwWiNYkBr//0ytwbuFzIH2H7+f0ZFbaHWosPbKU1hG+ujxKaFhyWkNCT4ZxldwKk/FMHkS8pU6n3YVipZyFlTA/ct/k/ZHg7kFBwOxQraVOOCQyEqBKx8JpXP2ubX2Tze9TDM7hVm9F4YAlaAM605wormxLTl4sAQ9oK2YCzdMP9gkApA/qGgkHCu66XOL7+JZxxdjQHuAathuBqGUNSa2KJbvzB4iPwDtTHZ9EAt5R2sFQznafJY8XNWmR8I0ve7y8mM3I1N71EKrOgqmK4SnM9G7ob5ik83TwcPkbe/NgbIfiAg8vYHpMochvb9Kk9T076VLr+B5xxZxabQu+ZhRe6Kfbxc8+zAIM/YW2F+W/wYxi86Xs4ns28ljL4oMSMrBNdmBPStDGe+758n+G7khv3GhrCfNrT6Re6zPsF5btgn6+q2zTBZobmTzF4QuTNp9q5s/fj1z7H17QKD5Kz/9bYWDNCFAaLQJKCTp/A7PXJHItX7hZFU7wpjtu+OluVvbLP9F5lmWAkTeM7rAAAAAElFTkSuQmCC" InformativeScreenshot="1ef4dfc9023212bdddb578ef64b887f0.jpg" Reference="pHqz09ekHkucux2MY5Bg8w/b6e36EDFG0-4Iz0q4M5c4w" Selector="&lt;html app='chrome.exe' title='Welcome to Carrefour Pricing Tool Portal' /&gt;" Title="Welcome to Carrefour Pricing Tool Portal" Url="http://pricing.edc.carrefour.com/#" Version="V1" />
       </uix:NApplicationCard.TargetApp>
     </uix:NApplicationCard>
+    <ui:LogMessage DisplayName="Log Message dispatch" sap:VirtualizedContainerService.HintSize="1116,166" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Trace" Message="[&quot;End of dispatch part&quot;]" />
   </Sequence>
 </Activity>
