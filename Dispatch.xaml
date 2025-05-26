@@ -1,0 +1,660 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Dispatch" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:uas="clr-namespace:UiPath.Activities.System;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="parameters" Type="InArgument(njl:JObject)" />
+    <x:Property Name="cfg_drive" Type="InArgument(njl:JToken)" />
+    <x:Property Name="credentials" Type="InArgument(scg:Dictionary(x:String, scg:Dictionary(x:String, x:String)))" />
+    <x:Property Name="paths" Type="InArgument(scg:Dictionary(x:String, x:String))" />
+    <x:Property Name="assets" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>882,461</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Dispatch_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+      <x:String>UiPath.UIAutomationNext</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>Microsoft</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>Microsoft.Win32.SafeHandles</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Globalization</x:String>
+      <x:String>System.Configuration.Assemblies</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.CodeDom.Compiler</x:String>
+      <x:String>System.Buffers</x:String>
+      <x:String>System.Buffers.Text</x:String>
+      <x:String>System.Buffers.Binary</x:String>
+      <x:String>System.Threading</x:String>
+      <x:String>System.Threading.Tasks</x:String>
+      <x:String>System.Threading.Tasks.Sources</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.Unicode</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.Security.Principal</x:String>
+      <x:String>System.Security.Permissions</x:String>
+      <x:String>System.Security.Cryptography</x:String>
+      <x:String>System.Runtime</x:String>
+      <x:String>System.Runtime.Remoting</x:String>
+      <x:String>System.Runtime.ExceptionServices</x:String>
+      <x:String>System.Runtime.ConstrainedExecution</x:String>
+      <x:String>System.Runtime.Versioning</x:String>
+      <x:String>System.Runtime.Loader</x:String>
+      <x:String>System.Runtime.Intrinsics</x:String>
+      <x:String>System.Runtime.Intrinsics.Wasm</x:String>
+      <x:String>System.Runtime.Intrinsics.Arm</x:String>
+      <x:String>System.Runtime.Intrinsics.X86</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Runtime.InteropServices.ObjectiveC</x:String>
+      <x:String>System.Runtime.InteropServices.Marshalling</x:String>
+      <x:String>System.Runtime.InteropServices.ComTypes</x:String>
+      <x:String>System.Runtime.CompilerServices</x:String>
+      <x:String>System.Resources</x:String>
+      <x:String>System.Reflection.Metadata</x:String>
+      <x:String>System.Reflection.Emit</x:String>
+      <x:String>System.IO.Enumeration</x:String>
+      <x:String>System.Diagnostics.SymbolStore</x:String>
+      <x:String>System.Diagnostics.Contracts</x:String>
+      <x:String>System.Diagnostics.CodeAnalysis</x:String>
+      <x:String>System.Diagnostics.Tracing</x:String>
+      <x:String>System.Collections.Concurrent</x:String>
+      <x:String>Internal</x:String>
+      <x:String>System.CodeDom</x:String>
+      <x:String>Microsoft.CSharp</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Linq.Expressions.Interpreter</x:String>
+      <x:String>System.Dynamic</x:String>
+      <x:String>UiPath.Workflow.Runtime</x:String>
+      <x:String>System.Activities.Tracking</x:String>
+      <x:String>System.Activities.Statements.Tracking</x:String>
+      <x:String>System.Activities.Runtime</x:String>
+      <x:String>System.Activities.Runtime.DurableInstancing</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>System.Activities.ParallelTracking</x:String>
+      <x:String>System.Activities.Hosting</x:String>
+      <x:String>System.Activities.Persistence</x:String>
+      <x:String>System.Activities.DurableInstancing</x:String>
+      <x:String>System.ComponentModel.Design.Serialization</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Security.Authentication.ExtendedProtection</x:String>
+      <x:String>System.Timers</x:String>
+      <x:String>System.ComponentModel.Design</x:String>
+      <x:String>System.Xml.Schema</x:String>
+      <x:String>System.Xml.Xsl</x:String>
+      <x:String>System.Xml.Xsl.Runtime</x:String>
+      <x:String>System.Xml.XPath</x:String>
+      <x:String>System.Xml.Resolvers</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.CodeAnalysis</x:String>
+      <x:String>Microsoft.CodeAnalysis.FlowAnalysis</x:String>
+      <x:String>Microsoft.CodeAnalysis.Text</x:String>
+      <x:String>Microsoft.CodeAnalysis.Diagnostics</x:String>
+      <x:String>Microsoft.CodeAnalysis.Diagnostics.Telemetry</x:String>
+      <x:String>Microsoft.CodeAnalysis.Operations</x:String>
+      <x:String>Microsoft.CodeAnalysis.Emit</x:String>
+      <x:String>Microsoft.CodeAnalysis.VisualBasic</x:String>
+      <x:String>Microsoft.CodeAnalysis.VisualBasic.Syntax</x:String>
+      <x:String>Microsoft.VisualBasic.FileIO</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities.Services.RuntimeAnalyze</x:String>
+      <x:String>UiPath.Activities.System</x:String>
+      <x:String>UiPath.Activities.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models.CV</x:String>
+      <x:String>UiPath.CV</x:String>
+      <x:String>UiPath.Shared.ObjectLibrary</x:String>
+      <x:String>UiPath.CV.Activities</x:String>
+      <x:String>UiPath.CV.Activities.Interfaces</x:String>
+      <x:String>UiPath.Shared.Activities.Business</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="192">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.GSuite.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.Linq.Async.Queryable</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Validation</AssemblyReference>
+      <AssemblyReference>System.IO.Pipes</AssemblyReference>
+      <AssemblyReference>System.Security.Cryptography</AssemblyReference>
+      <AssemblyReference>System.Security.Principal.Windows</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.Process</AssemblyReference>
+      <AssemblyReference>System.IO.MemoryMappedFiles</AssemblyReference>
+      <AssemblyReference>Microsoft.Win32.Registry</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>System.Net.Primitives</AssemblyReference>
+      <AssemblyReference>System.Net.HttpListener</AssemblyReference>
+      <AssemblyReference>System.Net.WebProxy</AssemblyReference>
+      <AssemblyReference>System.Net.NameResolution</AssemblyReference>
+      <AssemblyReference>System.Net.WebClient</AssemblyReference>
+      <AssemblyReference>System.Net.Requests</AssemblyReference>
+      <AssemblyReference>System.Net.ServicePoint</AssemblyReference>
+      <AssemblyReference>System.Net.WebHeaderCollection</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.CodeDom</AssemblyReference>
+      <AssemblyReference>System.Threading.AccessControl</AssemblyReference>
+      <AssemblyReference>System.Threading</AssemblyReference>
+      <AssemblyReference>UiPath.Vision.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Core</AssemblyReference>
+      <AssemblyReference>System.Threading.Tasks.Parallel</AssemblyReference>
+      <AssemblyReference>System.Text.Encoding.CodePages</AssemblyReference>
+      <AssemblyReference>System.Text.Encodings.Web</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.Security.Claims</AssemblyReference>
+      <AssemblyReference>System.Security.Cryptography.Pkcs</AssemblyReference>
+      <AssemblyReference>System.Security.Cryptography.ProtectedData</AssemblyReference>
+      <AssemblyReference>System.Windows.Forms.Design</AssemblyReference>
+      <AssemblyReference>System.Runtime.CompilerServices.VisualC</AssemblyReference>
+      <AssemblyReference>System.Windows.Forms</AssemblyReference>
+      <AssemblyReference>System.Resources.Writer</AssemblyReference>
+      <AssemblyReference>Microsoft.PowerShell.Commands.Diagnostics</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.FileVersionInfo</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.DiagnosticSource</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.TraceSource</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.EventLog</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.PerformanceCounter</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.TextWriterTraceListener</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.StackTrace</AssemblyReference>
+      <AssemblyReference>System.Collections.Concurrent</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>System.Net.Security</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Private.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Xml.XPath.XDocument</AssemblyReference>
+      <AssemblyReference>Microsoft.CodeAnalysis</AssemblyReference>
+      <AssemblyReference>Microsoft.CodeAnalysis.CSharp</AssemblyReference>
+      <AssemblyReference>Microsoft.CodeAnalysis.VisualBasic</AssemblyReference>
+      <AssemblyReference>Microsoft.CodeAnalysis.Workspaces</AssemblyReference>
+      <AssemblyReference>Microsoft.CodeAnalysis.Features</AssemblyReference>
+      <AssemblyReference>System.Reflection.MetadataLoadContext</AssemblyReference>
+      <AssemblyReference>UiPath.Activities.Contracts</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.CV.Activities</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <sap:WorkflowViewStateService.ViewState>
+    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+      <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+      <x:Boolean x:Key="ShouldCollapseAll">False</x:Boolean>
+    </scg:Dictionary>
+  </sap:WorkflowViewStateService.ViewState>
+  <Sequence DisplayName="Dispatch" sap:VirtualizedContainerService.HintSize="1116,7406" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="ui:PasswordCredentials" Name="OptipriceCredentials" />
+      <Variable x:TypeArguments="x:Int32" Name="NbKeyboardTabEnter" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message dispatch" sap:VirtualizedContainerService.HintSize="1116,173" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Begin of dispatch part&quot;]" />
+    <uix:NApplicationCard DisplayName="Ouvre optiprice" sap:VirtualizedContainerService.HintSize="1116,7210" sap2010:WorkflowViewState.IdRef="NApplicationCard_2" InteractionMode="DebuggerApi" ScopeGuid="5d40df67-5334-4486-8719-627c0190b7f0">
+      <uix:NApplicationCard.AutoGenerationOptions>
+        <uix:GenerationOptions ExpectedInputs="{x:Null}" Prompt="Open a new Google Chrome browser tab and navigate to http://pricing.edc.carrefour.com/#" Url="http://pricing.edc.carrefour.com/#">
+          <uix:GenerationOptions.ExpectedOutputs>
+            <scg:List x:TypeArguments="x:String" Capacity="4">
+              <x:Null />
+            </scg:List>
+          </uix:GenerationOptions.ExpectedOutputs>
+        </uix:GenerationOptions>
+      </uix:NApplicationCard.AutoGenerationOptions>
+      <uix:NApplicationCard.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="1082,6970" sap2010:WorkflowViewState.IdRef="Sequence_4">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Sequence sap:VirtualizedContainerService.HintSize="1048,123" sap2010:WorkflowViewState.IdRef="Sequence_19">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </Sequence>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1048,175" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Trace" Message="[&quot;Ouverture Optiprice réussie.&quot;]" />
+            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Europe'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+              <uix:NClick.Target>
+                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="2153fa23-b796-48f9-80cf-bb3660d9c0de" CvTextArea="445, 188, 45, 16" CvTextArgument="Europe" CvType="Text" DesignTimeRectangle="278, 179, 379, 31" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_europe' tag='A' type='' class='nav-link' aaname='Europe' check:innerText='Europe' /&gt;" Guid="f80fe1d5-7956-40ad-92f3-beae02ef91c6" InformativeScreenshot="9ec338e337e9f18701292a11469bc846.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Carrefour Pricing Tool Portal' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                  <uix:TargetAnchorable.Anchors>
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                      <uix:Target CVScreenId="2153fa23-b796-48f9-80cf-bb3660d9c0de" CvTextArea="445, 188, 45, 16" CvTextArgument="Europe" CvType="Text" DesignTimeRectangle="445, 188, 45, 16" ElementType="Text" Guid="0718a89f-ce0b-4edf-9324-e409c288371a" SearchSteps="CV" TargetType="ComputerVisionBased" />
+                    </scg:List>
+                  </uix:TargetAnchorable.Anchors>
+                </uix:TargetAnchorable>
+              </uix:NClick.Target>
+            </uix:NClick>
+            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'France'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_2" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+              <uix:NClick.Target>
+                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="56efc74c-a0d2-4f0c-a2d9-342583ff8add" CvElementArea="569, 226, 75, 32" CvTextArea="579, 235, 31, 10" CvTextArgument="France" CvType="Button" DesignTimeRectangle="570, 227, 75, 29" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_france' tag='A' type='' class='nav-link' aaname='                     France                                      ' check:innerText='France' /&gt;" Guid="fdee67a9-116f-4532-b939-2ee12592a523" InformativeScreenshot="8473677011c1f968d593cd1c260b22f5.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Pricing - Zone Europe' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                  <uix:TargetAnchorable.Anchors>
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                      <uix:Target CVScreenId="56efc74c-a0d2-4f0c-a2d9-342583ff8add" CvElementArea="569, 226, 75, 32" CvType="Button" DesignTimeRectangle="612, 233, 22, 17" ElementType="Icon" FuzzySelectorArgument="&lt;webctrl parentid='load_france' tag='IMG' type='' class='rounded flag' aaname='France' /&gt;" Guid="3a6e68db-0c8d-4f7f-9765-1aae4a7f0114" SearchSteps="FuzzySelector, CV" />
+                    </scg:List>
+                  </uix:TargetAnchorable.Anchors>
+                </uix:TargetAnchorable>
+              </uix:NClick.Target>
+            </uix:NClick>
+            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'OPC Permanent'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_3" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+              <uix:NClick.Target>
+                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com" CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvTextArea="411, 538, 71, 10" CvTextArgument="OPC Permanent" CvType="Text" DesignTimeRectangle="399, 523, 119, 41" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='franceTable' tag='TABLE' /&gt;&lt;webctrl type='' tag='A' class='nav-link' aaname='OPC Permanent' check:innerText='OPC Permanent' /&gt;" Guid="b80605fb-b044-449e-b85f-a6f455eb1586" InformativeScreenshot="bd3374469cc47263872b442495cbbfc6.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Pricing - Zone Europe' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                  <uix:TargetAnchorable.Anchors>
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="2">
+                      <uix:Target CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvTextArea="290, 538, 76, 10" CvTextArgument="France LAD-LEX" CvType="Text" DesignTimeRectangle="278, 523, 119, 41" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='franceTable' tag='TABLE' /&gt;&lt;webctrl type='' tag='TH' class='fr' aaname='France LAD-LEX' check:innerText='France LAD-LEX' /&gt;" Guid="11f76222-8a09-4b48-b057-cf149a76b229" SearchSteps="FuzzySelector, CV" />
+                      <uix:Target CVScreenId="1138395f-d3eb-439f-842e-fe74a4866d3c" CvElementArea="569, 227, 76, 29" CvType="InputBox" DesignTimeRectangle="570, 227, 75, 29" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='load_france' tag='A' type='' class='nav-link isActive-fr' aaname='                     France                                      ' check:innerText='France' /&gt;" Guid="bd5ca0ed-b887-4150-9e04-74e1dec42c4b" SearchSteps="FuzzySelector, CV" />
+                    </scg:List>
+                  </uix:TargetAnchorable.Anchors>
+                </uix:TargetAnchorable>
+              </uix:NClick.Target>
+            </uix:NClick>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1048,175" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Trace" Message="[&quot;Click OPC Permanent -&gt; Réussite&quot;]" />
+            <uix:NCheckState DisplayName="Check App State 'pricing.edc.carrefour.c…'" sap:VirtualizedContainerService.HintSize="1048,1219" sap2010:WorkflowViewState.IdRef="NCheckState_3" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Timeout="3" Version="V4">
+              <uix:NCheckState.IfExists>
+                <Sequence DisplayName="Target appears" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </uix:NCheckState.IfExists>
+              <uix:NCheckState.IfNotExists>
+                <Sequence DisplayName="Target does not appear" sap:VirtualizedContainerService.HintSize="484,970" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <uas:GetUsernamePasswordX OrchestratorCredentialName="{x:Null}" TimeoutInSeconds="{x:Null}" AutosubmitTimeoutSeconds="10" Credential="[OptipriceCredentials]" CredentialName="UiPath: Carrefour Optiprice" CredentialsSource="CredentialsManager" DisplayName="Get Username/Password" sap:VirtualizedContainerService.HintSize="450,207" sap2010:WorkflowViewState.IdRef="GetUsernamePasswordX_3" />
+                  <Sequence sap:VirtualizedContainerService.HintSize="450,701" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Do something." sap:VirtualizedContainerService.HintSize="416,175" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Image found&quot;]" />
+                    <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Login'" sap:VirtualizedContainerService.HintSize="416,189" sap2010:WorkflowViewState.IdRef="NClick_4" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                      <uix:NClick.Target>
+                        <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/ASPX/Logon/Logon.aspx" CVScreenId="93786349-8a45-4f06-a74c-80f7af8b0c52" CvElementArea="546, 294, 201, 23" CvType="InputBox" DesignTimeRectangle="547, 296, 200, 21" DesignTimeScaleFactor="0.6666666865348816" ElementType="InputBox" FuzzySelectorArgument="&lt;webctrl id='tbName' tag='INPUT' type='text' class='txt_login' aaname='' /&gt;" Guid="d4c0b11c-c6d8-4ada-b9a2-6fbc212394e7" InformativeScreenshot="2b326a264f8b64c3f84065d83b79bcd2.png" IsResponsive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' title='| Amazon | Login' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                          <uix:TargetAnchorable.Anchors>
+                            <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                              <uix:Target CVScreenId="93786349-8a45-4f06-a74c-80f7af8b0c52" CvTextArea="546, 285, 19, 10" CvTextArgument="Login:" CvType="Text" DesignTimeRectangle="547, 285, 19, 10" ElementType="Text" FuzzySelectorArgument="&lt;webctrl tag='LABEL' type='' class='' aaname='                                         Login:                                     ' check:innerText='Login:' /&gt;" Guid="b65f9643-4414-41ac-beb1-e1741a105b67" SearchSteps="FuzzySelector, CV" />
+                            </scg:List>
+                          </uix:TargetAnchorable.Anchors>
+                        </uix:TargetAnchorable>
+                      </uix:NClick.Target>
+                    </uix:NClick>
+                    <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="None" DisplayName="Type Into" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="416,250" sap2010:WorkflowViewState.IdRef="NTypeInto_1" Text="[&quot;moustapha_diagne&quot; + &quot;[k(Tab)]&quot; + OptipriceCredentials.Password + &quot;[k(Enter)]&quot;]" Version="V4">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </uix:NTypeInto>
+                  </Sequence>
+                </Sequence>
+              </uix:NCheckState.IfNotExists>
+              <uix:NCheckState.Target>
+                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/pri.aspx" CVScreenId="a6f3eacf-e4ea-499d-bd53-e266b15a83d4" CvElementArea="609, 273, 69, 45" CvType="Button" DesignTimeRectangle="622, 286, 40, 17" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Exporter les prix »' parentid='nav-subnav' tag='A' type='' class='sf-with-ul  parent_menu' check:innerText='Exporter les prix&amp;#xA;»' /&gt;" Guid="68d6abfa-eccc-4bbf-b8e0-cda2dbe0b68a" InformativeScreenshot="1bcab7d31bd9641eff1739a9dede016a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                  <uix:TargetAnchorable.Anchors>
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                      <uix:Target CVScreenId="a6f3eacf-e4ea-499d-bd53-e266b15a83d4" CvTextArea="578, 248, 158, 16" CvTextArgument="Cinematique de prix permanent" CvType="Text" DesignTimeRectangle="575, 247, 160, 15" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='HomeMenu' tag='SPAN' type='' class='' aaname='Cinématique de prix permanent' check:innerText='Cinématique de prix permanent' /&gt;" Guid="6df8de4f-4707-4996-b876-08cc4c5a872d" SearchSteps="FuzzySelector, CV" />
+                    </scg:List>
+                  </uix:TargetAnchorable.Anchors>
+                </uix:TargetAnchorable>
+              </uix:NCheckState.Target>
+            </uix:NCheckState>
+            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Cinématique de prix per…'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_8" InteractionMode="WindowMessages" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+              <uix:NClick.Target>
+                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/pri.aspx" CVScreenId="4d16ec68-29e2-48bc-bc3c-83f53df7f0a6" CvElementArea="609, 273, 69, 45" CvType="Button" DesignTimeRectangle="611, 275, 62, 39" DesignTimeScaleFactor="0.6666666865348816" ElementType="ListItem" FuzzySelectorArgument="&lt;webctrl type='' class='nav-subnav-item nav-category-button PriceRollOut' parentid='nav-subnav' tag='LI' aaname='' check:innerText='Exporter les prix&amp;#xA;»' /&gt;" Guid="1bdaa9d1-e8de-4546-9a7d-f613f8bf17ee" InformativeScreenshot="0c494b943691039e7284caec76d6bb9a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                  <uix:TargetAnchorable.Anchors>
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                      <uix:Target CVScreenId="4d16ec68-29e2-48bc-bc3c-83f53df7f0a6" CvTextArea="578, 248, 158, 16" CvTextArgument="Cinematique de prix permanent" CvType="Text" DesignTimeRectangle="575, 247, 160, 15" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='HomeMenu' tag='SPAN' type='' class='' aaname='Cinématique de prix permanent' check:innerText='Cinématique de prix permanent' /&gt;" Guid="e6298435-49a2-47e2-8a9a-97a61c20f2e2" SearchSteps="FuzzySelector, CV" />
+                    </scg:List>
+                  </uix:TargetAnchorable.Anchors>
+                  <uix:TargetAnchorable.PointOffset>
+                    <uix:PointOffset Position="BottomLeft" X="31" Y="-10" />
+                  </uix:TargetAnchorable.PointOffset>
+                </uix:TargetAnchorable>
+              </uix:NClick.Target>
+            </uix:NClick>
+            <Sequence DisplayName="Filters Sequence" sap:VirtualizedContainerService.HintSize="1048,1929" sap2010:WorkflowViewState.IdRef="Sequence_25">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Filtre principal'" sap:VirtualizedContainerService.HintSize="567,189" sap2010:WorkflowViewState.IdRef="NClick_9" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                <uix:NClick.Target>
+                  <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="33a77645-1179-46d2-9810-661e634ac686" CvElementArea="19, 278, 20, 17" CvType="Icon" DesignTimeRectangle="22, 279, 16, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aaname=' ' aria-role='presentation' tag='SPAN' type='' class='x-btn-icon-el x-btn-icon-el-default-toolbar-medium extjs-icon-folder ' /&gt;" Guid="31e45164-05ec-4a6d-b40c-ff4e2deb6919" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJjSURBVDhPrZBdTxNBFIb3D3rBhYk/QC80AQxGC6YxSKKIXEhLYoJKYiRGRb0QDYgGtZW2FKQt224/9qOlW7osIB+2Bdot+Hpm+omgJNqLp++c6Z5nZo6grRagmUSLUuCFuVvZbEEKKplbSUOY3YGqm1DSTejrUI3csaa/IShGHopRQDzkwlbwPrYWHZzt4DCMz72ILMwgISuEfCzlZAZKNsf7ax4SUkHmyPw0LP0BSlInrNgVWHEb9hIj2AiMYEsaO8Z27CmSLgdkfZP31zyCTGaG6J9CKTWMYuQSilJHhTCtwxebsoGl9EB39yOWMiDTLWueqrBAwklYyw66Hd0w3nWE/XAHtJdtUJ+fqaONtyH65CxCr3sguR5zB0NIZPNgiHPv6MlDKCW6sCt2Yk/s4ORD7TAmz2E3MYTi8ii94mEdK/0IB+YzqJ9ucwejSfgW1ooDm57zMNx2rHluctZnr2NfbOezLdEYjkDjsVL3EPS8agjjK3nEabHkm0AxOwTjwwWUM05Y6jVYWjdhgyVfPRmlGwVtFIH5L2CeipB+uNA/gVysDxteGw70fpST9gbayRxm7uB7wIFQJModXBhbyYGx5H+DVRfNTR2kD2+RtO9UDg0nQlN3ISpZ7mBUhXkEvo7DdHeibDrx0xw4nbVBFOQB+KbHEM1UZMwjsILhn3kB7f1lGIFeGAv201m8AfmjHXNBifdzKcGFbPFNSsI758es11vH46vmb3UN/2II4dQm7+ce9mRJ/wGJCp5EJL2DyB/ypP+b+5mUhFSwDYJt/G8t1E6pZK5+6r/WJKyc0prM4RdEkHlx1rxxaQAAAABJRU5ErkJggg==" InformativeScreenshot="36ee241710f9f3d0da9d604487db097a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                    <uix:TargetAnchorable.Anchors>
+                      <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                        <uix:Target CVScreenId="33a77645-1179-46d2-9810-661e634ac686" CvTextArea="12, 258, 55, 9" CvTextArgument="Filtre principal" CvType="Text" DesignTimeRectangle="12, 258, 170, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1834' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Filtre principal' check:innerText='Filtre principal' /&gt;" Guid="bcf8eb78-162b-401f-8df9-98963cf68b92" SearchSteps="FuzzySelector, CV" />
+                      </scg:List>
+                    </uix:TargetAnchorable.Anchors>
+                  </uix:TargetAnchorable>
+                </uix:NClick.Target>
+              </uix:NClick>
+              <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="567,414" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+                <ui:CommentOut.Body>
+                  <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="531,303" sap2010:WorkflowViewState.IdRef="Sequence_33">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Switch x:TypeArguments="x:Int32" DisplayName="Switch" sap:VirtualizedContainerService.HintSize="497,243" sap2010:WorkflowViewState.IdRef="Switch`1_1" />
+                  </Sequence>
+                </ui:CommentOut.Body>
+              </ui:CommentOut>
+              <Sequence DisplayName="LEX" sap:VirtualizedContainerService.HintSize="567,789" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Sequence DisplayName="Proxi" sap:VirtualizedContainerService.HintSize="484,456" sap2010:WorkflowViewState.IdRef="Sequence_27">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,123" sap2010:WorkflowViewState.IdRef="Sequence_30">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </Sequence>
+                  <Sequence DisplayName="Secteur 2" sap:VirtualizedContainerService.HintSize="450,123" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </Sequence>
+                  <Sequence sap:VirtualizedContainerService.HintSize="450,116" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </Sequence>
+                </Sequence>
+                <Sequence DisplayName="Market" sap:VirtualizedContainerService.HintSize="484,123" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+                <Sequence DisplayName="Hyper" sap:VirtualizedContainerService.HintSize="484,116" sap2010:WorkflowViewState.IdRef="Sequence_29">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </Sequence>
+              <Sequence DisplayName="CLCV" sap:VirtualizedContainerService.HintSize="567,443" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Sequence DisplayName="Bannière 30" sap:VirtualizedContainerService.HintSize="484,356" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Sequence DisplayName="Secteur 1" sap:VirtualizedContainerService.HintSize="450,269" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <uix:NClick ActivateBefore="True" ClickType="Double" DisplayName="Click 'CLCV Bnr 30 - Sct 1'" sap:VirtualizedContainerService.HintSize="416,182" sap2010:WorkflowViewState.IdRef="NClick_10" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                      <uix:NClick.Target>
+                        <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="e42ca3e2-5b59-4f73-bef6-b1be7f096950" CvTextArea="267, 293, 65, 8" CvTextArgument="CLOW Bmr 30 Sct 1" CvType="Text" DesignTimeRectangle="264, 292, 247, 14" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='gridview-1866' tag='TABLE' /&gt;&lt;webctrl type='' tag='DIV' class='x-grid-cell-inner ' aaname='CLCV Bnr 30 - Sct 1' check:innerText='CLCV Bnr 30 - Sct 1' /&gt;" Guid="ad55d185-363d-494e-918a-4fe3b8504a39" InformativeScreenshot="950d8a3ac7078f1a76bdb64ee0bc2314.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                          <uix:TargetAnchorable.Anchors>
+                            <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                              <uix:Target CVScreenId="e42ca3e2-5b59-4f73-bef6-b1be7f096950" CvTextArea="264, 259, 85, 9" CvTextArgument="Preferences utilisateur" CvType="Text" DesignTimeRectangle="263, 260, 314, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1871' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Préférences utilisateur' check:innerText='Préférences utilisateur' /&gt;" Guid="b2b476ff-8d85-4bda-84f0-8216d7b8e1ee" SearchSteps="FuzzySelector, CV" />
+                            </scg:List>
+                          </uix:TargetAnchorable.Anchors>
+                        </uix:TargetAnchorable>
+                      </uix:NClick.Target>
+                    </uix:NClick>
+                  </Sequence>
+                </Sequence>
+              </Sequence>
+            </Sequence>
+            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Filtre principal'" sap:VirtualizedContainerService.HintSize="1048,189" sap2010:WorkflowViewState.IdRef="NClick_11" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+              <uix:NClick.Target>
+                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="97700c55-8512-4cbd-8f4b-7b97db1fb595" CvTextArea="149, 282, 21, 8" CvTextArgument="Fitrer" CvType="Text" DesignTimeRectangle="132, 279, 40, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' class='x-btn-button x-btn-button-default-toolbar-medium x-btn-text  x-btn-icon x-btn-icon-left x-btn-button-center ' tag='SPAN' aaname='' check:innerText='Filtrer' /&gt;" Guid="2a4a4d83-dc68-4478-aa0e-36dbda29964a" InformativeScreenshot="f3770e35dc88e93f420ec297a7ef8425.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                  <uix:TargetAnchorable.Anchors>
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                      <uix:Target CVScreenId="97700c55-8512-4cbd-8f4b-7b97db1fb595" CvTextArea="12, 258, 55, 9" CvTextArgument="Filtre principal" CvType="Text" DesignTimeRectangle="12, 258, 170, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='title-1834' tag='DIV' type='' class='x-title-text x-title-text-default x-title-item' aaname='Filtre principal' check:innerText='Filtre principal' /&gt;" Guid="5b38b900-f0c4-45c2-8e98-bdd4d236f1b7" SearchSteps="FuzzySelector, CV" />
+                    </scg:List>
+                  </uix:TargetAnchorable.Anchors>
+                </uix:TargetAnchorable>
+              </uix:NClick.Target>
+            </uix:NClick>
+            <uix:NCheckState DisplayName="Check App State 'Validation et export de…'" sap:VirtualizedContainerService.HintSize="1048,2342" sap2010:WorkflowViewState.IdRef="NCheckState_2" Mode="WaitDisappear" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Timeout="180" Version="V4">
+              <uix:NCheckState.IfExists>
+                <Sequence DisplayName="Target disappears" sap:VirtualizedContainerService.HintSize="544,2100" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sélectionner'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_12" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="cb906fc8-f7cd-449d-9050-07912c93e6ff" CvTextArea="414, 265, 42, 7" CvTextArgument="Selectiommer" CvType="Text" DesignTimeRectangle="392, 260, 66, 21" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' class='x-btn-button x-btn-button-default-toolbar-large x-btn-text  x-btn-icon x-btn-icon-left x-btn-button-center ' tag='SPAN' aaname='' check:innerText='Sélectionner' /&gt;" Guid="7d45ecbf-b400-4bd4-9a40-643610138d98" InformativeScreenshot="cdcff864a9d9d66ae46b4cde4024313e.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive" />
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sélectionner toutes les…'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_13" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="e81f5103-4459-4752-84c5-742d9711c38b" CvTextArea="410, 290, 97, 9" CvTextArgument="Selectiommer toutes les lignes" CvType="Text" DesignTimeRectangle="412, 287, 94, 15" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Sélectionner toutes les lignes' tag='SPAN' type='' class='x-menu-item-text x-menu-item-text-default x-menu-item-indent' check:innerText='Sélectionner toutes les lignes' /&gt;" Guid="02c15908-fb85-474b-841e-bf1d46793df5" InformativeScreenshot="480effb8e238dc8ea071a02de0a0b953.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                        <uix:TargetAnchorable.Anchors>
+                          <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                            <uix:Target CVScreenId="e81f5103-4459-4752-84c5-742d9711c38b" CvTextArea="414, 265, 42, 8" CvTextArgument="Selectiommer" CvType="Text" DesignTimeRectangle="413, 265, 45, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Sélectionner' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' check:innerText='Sélectionner' /&gt;" Guid="296a373b-a603-4868-aa1d-7f1a2ab5770d" SearchSteps="FuzzySelector, CV" />
+                          </scg:List>
+                        </uix:TargetAnchorable.Anchors>
+                      </uix:TargetAnchorable>
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Demande d'export/Annule…'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_14" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="43f39720-f5ed-43db-acc4-277ba455a605" CvTextArea="55, 257, 115, 9" CvTextArgument="Demande export/Annuler l'export" CvType="Text" DesignTimeRectangle="53, 257, 119, 11" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnInnerEl' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' aaname='Demande d&amp;apos;export/Annuler l&amp;apos;export' check:innerText='Demande d&amp;apos;export/Annuler l&amp;apos;export' /&gt;" Guid="26406fd0-8a01-46ee-b233-d7336bffe924" InformativeScreenshot="d80f69be54c126f2a9a31566d11bd1ff.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                        <uix:TargetAnchorable.Anchors>
+                          <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                            <uix:Target CVScreenId="43f39720-f5ed-43db-acc4-277ba455a605" CvElementArea="32, 252, 21, 20" CvType="Icon" DesignTimeRectangle="32, 252, 21, 21" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnIconEl' tag='SPAN' type='' class='x-btn-icon-el x-btn-icon-el-default-toolbar-large extjs-icon-valid ' aaname=' ' /&gt;" Guid="3f8e9967-aa99-4e72-88ef-24ad8ff966db" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAOHSURBVEhLvVPfT1tlGD4Hlpi4RROSZZoOkWmy/8AoF/PGRU22v8QfifPGyy3BROfUZe7A6WnLQDbnWOhWLsYQDtBCB5G2cvrjAG1Pm7DJdjnYFoe0Pj7fd4ppT5kx0Xrx5Hm/93vf5/netz2K8+AJSoTz4HGN//uz4tx/LBOtZE4iDq5zq1gp0qnV+H9MChtuILhQ491z/v4jJJ0yNPMjfH6rB2fG3mhAL3Oa+TFSpTLyG4+a+nfPighk0sPCIFUq4dLCZwgvv4PLpg9DPx1qwDBzN3gnapKsLbBnLz1FvoCo5/zGFhKOA3/0FEattzFoHoAxoSIwoXigyrtR6xj8s59yagdr7PXqyXXJ1cikGy8ViwjFP8H1dA8uze6HMUnBqUYEJav4LvIi/Le6cT3zFntOIcFeV8/VElDyv9ZeX8dX4kGMZHowOPc8/DMUm61BxLWzf0aFPvEqss4o7PINhMyjGMm+yd5Qk55cl3Ct5+D0efzwy1EEYvvQf7sL2vhBGDGuK0YDQo+q6GPeKv6IncpTbP/+BGNzH2Dg58MIsderp6zRyYuA+Q2Gl4/AMI8g44xQ7Cr8Zjf8cVVCn+pGujiCamWHJtvIlcIwpl/DsNWNoPltk94zTM4hsHQQY/MfyldWKLRcuIKLU524ONkJq8AJdp5KAxFrZieMhXYMp7v4O33dpKes3nODeg6YZzGYeZkreh3Zclia/FGtIFO6iWwpgmq1SpNteafN+KAvcZVLbRjK+GBMnWvS+2uS1To2zC/wvf0S/Kl2aFG+3LlG0d8oXiG4Ik6xXLiKvlgX9JQKI6UQKobsQ+z9skFPQFm5t0W3LdRziHsNZn0YyO6DnlahxXzI8R+0u6IMJ+ib64Ru0cCiARFibYCThMzzTXpyXV5E02n0Rk7AyHUgZLejP6tAm+dE/LGt4jVo8cPQMzTI0IAQNaK2N3JS9nr1lJW7rlsjb2J8IYEz4feh515AMN+G/lUVF+IduHCnAzpjw+a3ssKPcq1N1oja24tJ2OubTXpyXSt087J99yEmk0k2v4s++zkMlFUESxQtqQiRJZjTeHc6/B5rE+ypGXj0FJtOz0Ju/SHG+brT4eP4avEVnF0g7tTAWOTE3fhiQtbupSHwtyYuNhG1bETi07g5ZyIyPy0hY+bEnajZu9eFkqsFufUat+D8Dyb591By/De0GjRxR2sdtvAnKr04kY0qupMAAAAASUVORK5CYII=" SearchSteps="FuzzySelector, CV" />
+                          </scg:List>
+                        </uix:TargetAnchorable.Anchors>
+                      </uix:TargetAnchorable>
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Exporter'" sap:VirtualizedContainerService.HintSize="510,189" sap2010:WorkflowViewState.IdRef="NClick_15" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="5d40df67-5334-4486-8719-627c0190b7f0" Version="V4">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="962ad743-3d24-41fa-8eed-fa6a7b972183" CvTextArea="50, 282, 30, 9" CvTextArgument="Exporter" CvType="Text" DesignTimeRectangle="32, 279, 78, 15" DesignTimeScaleFactor="0.6666666865348816" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aria-role='menuitem' parentid='menuitem-1648' tag='A' type='' class='x-menu-item-link x-focus x-menu-item-focus x-menu-item-default-focus' aaname='Exporter' check:innerText='Exporter' /&gt;" Guid="cb25d3a3-e0b4-4204-85dd-f5554897235e" InformativeScreenshot="a5e0650a26def52951bea363773617a7.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                        <uix:TargetAnchorable.Anchors>
+                          <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                            <uix:Target CVScreenId="962ad743-3d24-41fa-8eed-fa6a7b972183" CvElementArea="29, 248, 151, 28" CvType="Button" DesignTimeRectangle="53, 257, 119, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl id='ExportReleaseSelectionSyn-btnInnerEl' tag='SPAN' type='' class='x-btn-inner x-btn-inner-default-toolbar-large' aaname='Demande d&amp;apos;export/Annuler l&amp;apos;export' check:innerText='Demande d&amp;apos;export/Annuler l&amp;apos;export' /&gt;" Guid="fce2ecf2-7b46-4961-9585-aba561515676" SearchSteps="FuzzySelector, CV" />
+                          </scg:List>
+                        </uix:TargetAnchorable.Anchors>
+                      </uix:TargetAnchorable>
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="510,1282" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                    <TryCatch.Try>
+                      <uix:NClosePopup PopupException="{x:Null}" PopupHandled="{x:Null}" DisplayName="Close Popup" EnableAI="True" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="NClosePopup_1" PreferredButtons="[New String(){&quot;Close&quot;,&quot;Cancel&quot;,&quot;Ok&quot;}]" Version="V4" />
+                    </TryCatch.Try>
+                    <TryCatch.Catches>
+                      <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="476,213" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ActivityAction x:TypeArguments="s:Exception">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                          </ActivityAction.Argument>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,143" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Pas de Pop-Up&quot;]" />
+                        </ActivityAction>
+                      </Catch>
+                    </TryCatch.Catches>
+                    <TryCatch.Finally>
+                      <Sequence sap:VirtualizedContainerService.HintSize="472,637" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,575" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+                          <TryCatch.Finally>
+                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,143" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Pas de Pop-Up 2&quot;]" />
+                          </TryCatch.Finally>
+                          <TryCatch.Try>
+                            <uix:NClosePopup PopupException="{x:Null}" PopupHandled="{x:Null}" DisplayName="Close Popup" EnableAI="True" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="NClosePopup_2" PreferredButtons="[New String(){&quot;Close&quot;,&quot;Cancel&quot;,&quot;Ok&quot;}]" Version="V4" />
+                          </TryCatch.Try>
+                        </TryCatch>
+                      </Sequence>
+                    </TryCatch.Finally>
+                  </TryCatch>
+                </Sequence>
+              </uix:NCheckState.IfExists>
+              <uix:NCheckState.IfNotExists>
+                <Sequence DisplayName="Target does not disappear" sap:VirtualizedContainerService.HintSize="450,91" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </uix:NCheckState.IfNotExists>
+              <uix:NCheckState.Target>
+                <uix:TargetAnchorable BrowserURL="pricing.edc.carrefour.com/PRDM/v2/PriceRollOut/PriceExport/ValidateAndExport" CVScreenId="2fa17c59-7be4-426e-a553-b1105a358c04" CvTextArea="633, 605, 59, 9" CvTextArgument="Veuillez patienter..." CvType="Text" DesignTimeRectangle="618, 602, 78, 16" DesignTimeScaleFactor="0.6666666865348816" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' parentid='ext-element-26' tag='DIV' type='' class='x-mask-msg-inner' aaname='' check:innerText='Veuillez patienter...' /&gt;" Guid="da0e867d-a8fe-41c5-834b-ec0bfcba18e3" InformativeScreenshot="defd2d7d3e7b6cf9944592d5561f42b3.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='OptiPrice -' /&gt;" SearchSteps="FuzzySelector, CV" Version="V4" Visibility="Interactive">
+                  <uix:TargetAnchorable.Anchors>
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
+                      <uix:Target CVScreenId="2fa17c59-7be4-426e-a553-b1105a358c04" CvTextArea="26, 229, 36, 10" CvTextArgument="Eldaton" CvType="Text" DesignTimeRectangle="25, 229, 105, 11" ElementType="Text" FuzzySelectorArgument="&lt;webctrl parentid='fullscreenDiv' tag='SPAN' type='' class='' aaname='Validation et export de prix' check:innerText='Validation et export de prix' /&gt;" Guid="b862e240-8309-4dbc-8550-183769e64b04" SearchSteps="FuzzySelector, CV" />
+                    </scg:List>
+                  </uix:TargetAnchorable.Anchors>
+                </uix:TargetAnchorable>
+              </uix:NCheckState.Target>
+            </uix:NCheckState>
+          </Sequence>
+        </ActivityAction>
+      </uix:NApplicationCard.Body>
+      <uix:NApplicationCard.TargetApp>
+        <uix:TargetApp Area="-1288, -138, 1296, 992" BrowserType="Chrome" ContentHash="dfJdrtWRp0ee7cFhaCrIEg" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAbxSURBVFhHpZZtTFvnFcf9pWuypg3tmjVrGmLeEoMBG2PaJBDb2CkvyQJpvlXtFqRpmrSXT5s67a3pl0nTptXkhdAklEsCbZdG3VsrVe3AhhBCs3ZDi5ZAo21OA5hAOztNmrXhXj9n//M8j415SUe7I/30P+fh+vzPufcasC03YgF3zkzQ0zITrDLAyPshb3ImVEXTQS/NBDn3RmeClcZ0qHIvX6s/9v/HVIPbfjVU1com2kxcra2k6VovqBQM14sIVBpTAbddt/nsoTb2htlUGgWUWcYQ9dWAR0wFOPcgV8r1VMCj8AOfZ59uufzgyWES00a6sUfm8ww0cTZiuPZViLi/Qp1xrohNbV7m3ZiurXChUSzbIIO/QjDKUBlpE4r73BmdhE5ucys4V/X/HoI3h1EsvYFSjTaa9Kmm8W3aSDXPMJGmxkWTNS4BBaoer3ZhCMfSQ/Azh1FMGWU1z5ipxnIA1hq3kDUbaENlJHMxLmul49XljFDqii35LZnwucMZE4XI3khvo41Uzg1lzc1l7aIrOGO0KV3ZupAycWVLWVjbqnC/tNve/h3/nAmboqk2I7mNNpn57jfoxss9ZMYnKR3i5rskZl4la2QXWecqGcGaYn3LQ5JzHpx5BM5kTcNZ70PlS3uMbUYzjYUq1Fb6dknFxDKvr6YbJ3u0JVE8Kah/bBaYdGkqpU8xzNSLZL3jJ/OtChgxbgzhxjDQYbeqoajVXXAbu3M8LzxGzL4fBjO3io1Z39tSRuN1W+nWpTFp8JeYSd8yPqKqZ65R1T4N8qbwdYqOzsprxM0xst6ugZmLDZUOc85aDi3HEOVJGsG74H5hd4u7ZzdVANb+Jq80ZfCsBOv133TLxkein5AXhhmezso1R3ENh4h3K7PhMk1pljJOMXumpMXm7m42ALm6m4S7p1k8+Ys6ury5lN7b7BTMxGP1siFvV/l0UuLROse1eefv4C5xpC7sFdZZJ5lnS8hagtRwiWFzdTdHXScwwIkmTTO9useLIZwUe8RJN177nWy289kPqeJnyTlglNF0rutvdt6QnxFTJ4R5thhm2TgwlINS0NRQ8Yit/HhTsvz4LkpT1rWLth9spL/7yij2cIm4dWmUxuIWudF8MYnbkKTJJF7MTyZguBGGmiEJMSZInS1K2MqMr8JUImSu659/u5piVcWCN4lcnCXXTxNLA7P5dYLKoRH9QlpDRWSeKSSLQW4NaZV1gbCVdu6kUpiWGjuF1C6lj7Q30vkap2zSd/EWlaHpQtgoW7PP+zA0h3WmAEb5wjoDhgowTD7O5uABks7OHUKxk6BAqvjeUz5hxidoMpGi0p/8+zMxiscmProAkzwyB/Ogdgxhl7XKN3CdsJU8v+OvJR2NpNhBqGXuZH2+UQz2n5SbtHRcJycaO38MWD+Ful9dk59JTZ+CGRvlCnMwlyzJBrBecG4Oro/aHB0NRvGxRpqjQQ7gONYgOP/6a0/JZn/+1yyVwLwYKP1A5nP13HkvHhmH9fYWMk+vBw/B9CHBqnOyWE+vM2yOow0tIGPIyPpovQCsdPy8+ioe6rtJjh99QA6YSF0Izg/1/kdee228E4brYLYO2z6I/EGYK6y0Dqzba7MbgZziI/XJTUfqKRsH69E6wXi79ojR9/8hG//pwi0K/jJJm2CYzdeOfUjn/qlevInEu5QYLCFz4CuatTBdK9JqnX5A5hTNUX+WNz1X37rpuTraqJH5kTqRroHwGntE1/nfSgOOi5OWHIaZwEuaDr6m849bsN1aGD+QwWLt/7JUa2CNsPrXGNKcw9HeYN/Y/igxRVrTeRaisH27CPQ8Sa+MvkEX9R3hGL9+lYy/vUJP/P4H5O/wwWiNYkBr//0ytwbuFzIH2H7+f0ZFbaHWosPbKU1hG+ujxKaFhyWkNCT4ZxldwKk/FMHkS8pU6n3YVipZyFlTA/ct/k/ZHg7kFBwOxQraVOOCQyEqBKx8JpXP2ubX2Tze9TDM7hVm9F4YAlaAM605wormxLTl4sAQ9oK2YCzdMP9gkApA/qGgkHCu66XOL7+JZxxdjQHuAathuBqGUNSa2KJbvzB4iPwDtTHZ9EAt5R2sFQznafJY8XNWmR8I0ve7y8mM3I1N71EKrOgqmK4SnM9G7ob5ik83TwcPkbe/NgbIfiAg8vYHpMochvb9Kk9T076VLr+B5xxZxabQu+ZhRe6Kfbxc8+zAIM/YW2F+W/wYxi86Xs4ns28ljL4oMSMrBNdmBPStDGe+758n+G7khv3GhrCfNrT6Re6zPsF5btgn6+q2zTBZobmTzF4QuTNp9q5s/fj1z7H17QKD5Kz/9bYWDNCFAaLQJKCTp/A7PXJHItX7hZFU7wpjtu+OluVvbLP9F5lmWAkTeM7rAAAAAElFTkSuQmCC" InformativeScreenshot="1ef4dfc9023212bdddb578ef64b887f0.jpg" Reference="pHqz09ekHkucux2MY5Bg8w/b6e36EDFG0-4Iz0q4M5c4w" Selector="&lt;html app='chrome.exe' title='Welcome to Carrefour Pricing Tool Portal' /&gt;" Title="Welcome to Carrefour Pricing Tool Portal" Url="http://pricing.edc.carrefour.com/#" Version="V1" />
+      </uix:NApplicationCard.TargetApp>
+    </uix:NApplicationCard>
+  </Sequence>
+</Activity>
